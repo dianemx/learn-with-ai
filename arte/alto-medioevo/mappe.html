@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mappe – Alto Medioevo (Arte, unità 5)</title>
+<style>
+:root{
+  --arch:#2f6fae; --arch-bg:#e4effa;
+  --pitt:#1f8a73; --pitt-bg:#dff3ee;
+  --scul:#c2457f; --scul-bg:#fbe6f0;
+  --ink:#1d2433; --muted:#5b6475; --paper:#fffdf8; --line:#d9dce3;
+  --yellow:#ffe680;
+}
+*{box-sizing:border-box}
+html{color-scheme:light}
+
+body{margin:0;font-family:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif;background:var(--paper);color:var(--ink);line-height:1.55;font-size:17px;letter-spacing:.01em}
+header{padding:22px 20px 10px;max-width:1100px;margin:auto}
+h1{margin:0;font-size:28px}
+.sub{color:var(--muted);margin:4px 0 0}
+nav{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:2px solid var(--line)}
+nav .in{max-width:1100px;margin:auto;display:flex;gap:8px;padding:10px 20px;overflow-x:auto}
+nav a{text-decoration:none;color:var(--ink);font:inherit;font-size:15px;border:2px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;cursor:pointer;white-space:nowrap}
+nav a.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+main{max-width:1100px;margin:auto;padding:18px 20px 60px}
+section{display:block;margin-bottom:46px;scroll-margin-top:70px}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 18px;font-size:14px}
+.legend span{padding:4px 10px;border-radius:8px;font-weight:600}
+.lg-a{background:var(--arch-bg);color:var(--arch)} .lg-p{background:var(--pitt-bg);color:var(--pitt)} .lg-s{background:var(--scul-bg);color:var(--scul)}
+.root{background:var(--ink);color:#fff;border-radius:16px;padding:16px 20px;text-align:center;margin-bottom:8px}
+.root h2{margin:0;font-size:24px}
+.root p{margin:4px 0 0;opacity:.85;font-size:15px}
+.stem{width:3px;height:18px;background:var(--line);margin:0 auto}
+.branches{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.branch{border-radius:16px;padding:0 0 10px;border:2px solid var(--line);background:#fff}
+.branch>.head{border-radius:14px 14px 0 0;padding:10px 14px;color:#fff;font-weight:700;font-size:18px}
+.a>.head{background:var(--arch)} .p>.head{background:var(--pitt)} .s>.head{background:var(--scul)}
+.head small{display:block;font-weight:400;font-size:13px;opacity:.9}
+.leaves{padding:8px 14px 0 26px;position:relative}
+.leaves:before{content:"";position:absolute;left:14px;top:8px;bottom:12px;width:3px;border-radius:3px}
+.a .leaves:before{background:var(--arch-bg)} .p .leaves:before{background:var(--pitt-bg)} .s .leaves:before{background:var(--scul-bg)}
+.leaf{position:relative;margin:10px 0;padding:10px 12px;border-radius:12px}
+.leaf:before{content:"";position:absolute;left:-12px;top:20px;width:12px;height:3px}
+.a .leaf{background:var(--arch-bg)} .a .leaf:before{background:var(--arch-bg)}
+.p .leaf{background:var(--pitt-bg)} .p .leaf:before{background:var(--pitt-bg)}
+.s .leaf{background:var(--scul-bg)} .s .leaf:before{background:var(--scul-bg)}
+.leaf h3{margin:0 0 4px;font-size:16px}
+.leaf ul{margin:0;padding-left:18px}
+.leaf li{margin:2px 0}
+.pg{display:inline-block;font-size:12px;font-weight:600;background:#fff;border-radius:6px;padding:1px 7px;margin-left:4px;color:var(--muted);vertical-align:middle}
+mark{background:var(--yellow);padding:0 3px;border-radius:4px}
+b{font-weight:700}
+.recap{margin-top:22px;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.box{border:2px dashed var(--line);border-radius:16px;padding:14px 16px;background:#fff}
+.box h3{margin:0 0 8px;font-size:17px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{background:#f1f2f6;border-radius:8px;padding:3px 9px;font-size:14px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+td,th{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+th{background:#f4f5f8}
+/* timeline */
+.tl{position:relative;margin:10px 0 0;padding-left:30px}
+.tl:before{content:"";position:absolute;left:11px;top:0;bottom:0;width:4px;background:var(--line);border-radius:4px}
+.era{margin:22px 0 6px;font-weight:700;font-size:19px}
+.ev{position:relative;background:#fff;border:2px solid var(--line);border-radius:12px;padding:9px 13px;margin:9px 0}
+.ev:before{content:"";position:absolute;left:-26px;top:14px;width:14px;height:14px;border-radius:50%;background:var(--c,#888);border:3px solid var(--paper)}
+.ev .d{font-weight:700;color:var(--c);margin-right:8px}
+.e1{--c:#8a5a2b} .e2{--c:#b8860b} .e3{--c:#c2457f} .e4{--c:#2f6fae}
+.note{font-size:14px;color:var(--muted);margin-top:10px}
+.tip{background:#fff7d6;border-radius:12px;padding:10px 14px;margin:0 0 16px;font-size:15px}
+@media print{
+  nav,.tip{display:none} section{display:block!important;page-break-after:always} body{font-size:13px}
+  .branch,.ev,.box{break-inside:avoid}
+}
+
+/* forza colori leggibili anche se il visualizzatore impone colori ai pulsanti */
+:root body button,:root body button *,:root body input,:root body label,:root body a{color:#1d2433!important;-webkit-text-fill-color:#1d2433!important}
+:root body .card span{color:#5b6475!important;-webkit-text-fill-color:#5b6475!important}
+:root body .btn,:root body .btn *{color:#fff!important;-webkit-text-fill-color:#fff!important}
+:root body .btn.ghost,:root body .btn.ghost *{color:#1d2433!important;-webkit-text-fill-color:#1d2433!important}
+:root body nav a.on{color:#fff!important;-webkit-text-fill-color:#fff!important}
+:root body .tag{color:#fff!important;-webkit-text-fill-color:#fff!important}
+:root body .blank.empty{color:transparent!important;-webkit-text-fill-color:transparent!important}
+:root body .blank .fix{color:#1f9d55!important;-webkit-text-fill-color:#1f9d55!important}
+</style>
+</head>
+<body>
+<header>
+  <h1>🏛️ Arte dell'Alto Medioevo – le mappe</h1>
+  <p class="sub">Unità 5 · solo le parti da studiare per la verifica (pag. 136–153)</p>
+</header>
+<nav><div class="in" id="tabs">
+  <a href="#tl">⏳ Linea del tempo</a>
+  <a href="#pal">✝️ Paleocristiana</a>
+  <a href="#biz">✨ Bizantina a Ravenna</a>
+  <a href="#lon">⚔️ Longobarda</a>
+  <a href="#car">👑 Carolingia</a>
+</div></nav>
+<main>
+<div class="legend">
+  <span class="lg-a">🏛️ Architettura</span><span class="lg-p">🎨 Pittura / mosaico</span><span class="lg-s">🗿 Scultura / oreficeria</span>
+  <span style="background:var(--yellow)">evidenziato = parola chiave</span>
+</div>
+
+<!-- ============ LINEA DEL TEMPO ============ -->
+<section id="tl" class="on">
+  <div class="tip">💡 Trucco: ricorda l'ordine dei 4 periodi con <b>P – B – L – C</b> → <b>P</b>aleocristiano, <b>B</b>izantino, <b>L</b>ongobardo, <b>C</b>arolingio.</div>
+  <div class="tl">
+    <div class="era" style="color:#8a5a2b">✝️ Arte paleocristiana</div>
+    <div class="ev e1"><span class="d">prima del 313</span>i cristiani pregano di nascosto nelle <b>domus ecclesiae</b> e seppelliscono i morti nelle <b>catacombe</b></div>
+    <div class="ev e1"><span class="d">313 d.C.</span><b>Costantino</b> promuove i primi edifici cristiani: <b>basiliche</b> e <b>battisteri</b></div>
+    <div class="ev e1"><span class="d">319–349</span>costruzione della <b>Basilica di San Pietro</b> (Roma)</div>
+    <div class="ev e1"><span class="d">V secolo</span><b>Battistero di San Giovanni in Laterano</b>: si aggiunge la doppia serie di colonne attorno alla vasca</div>
+
+    <div class="era" style="color:#b8860b">✨ Arte bizantina a Ravenna</div>
+    <div class="ev e2"><span class="d">402</span><b>Ravenna</b> diventa capitale dell'Impero romano d'Occidente (Onorio la sposta da Milano)</div>
+    <div class="ev e2"><span class="d">423–450</span><b>Galla Placidia</b> governa Ravenna</div>
+    <div class="ev e2"><span class="d">metà V sec.</span><b>Mausoleo di Galla Placidia</b></div>
+    <div class="ev e2"><span class="d">526–547</span><b>Chiesa (Basilica) di San Vitale</b></div>
+    <div class="ev e2"><span class="d">527</span><b>Giustiniano</b> sale al trono dell'Impero d'Oriente</div>
+    <div class="ev e2"><span class="d">539</span>i Bizantini riconquistano Ravenna</div>
+    <div class="ev e2"><span class="d">metà VI sec.</span><b>mosaici di Giustiniano e Teodora</b> in San Vitale</div>
+
+    <div class="era" style="color:#c2457f">⚔️ Arte longobarda</div>
+    <div class="ev e3"><span class="d">dopo Giustiniano</span>i <b>Longobardi</b> dominano gran parte dell'Italia: oreficeria e architettura longobarda</div>
+
+    <div class="era" style="color:#2f6fae">👑 Arte carolingia</div>
+    <div class="ev e4"><span class="d">IX secolo (824–860)</span><b>Altare di Vuolvinio</b>, Sant'Ambrogio, Milano</div>
+
+    <div class="era" style="color:#555">…e molto dopo</div>
+    <div class="ev"><span class="d" style="color:#555">XVI secolo</span>l'antica San Pietro viene <b>demolita</b> per costruire quella attuale</div>
+  </div>
+  <p class="note">Le date sono quelle scritte nelle pagine del libro da studiare. Per Longobardi e Carolingi nelle parti richieste non ci sono date precise: conta l'ordine. Confronta con la linea del tempo del quaderno.</p>
+</section>
+
+<!-- ============ PALEOCRISTIANA ============ -->
+<section id="pal">
+  <div class="root"><h2>✝️ ARTE PALEOCRISTIANA</h2><p>l'arte dei primi cristiani · pag. 136–139</p></div>
+  <div class="stem"></div>
+  <div class="branches">
+    <div class="branch a">
+      <div class="head">🏛️ Architettura <small>pag. 136–137</small></div>
+      <div class="leaves">
+        <div class="leaf"><h3>All'inizio: fede nascosta</h3><ul>
+          <li>preghiera nelle case private = <mark>domus ecclesiae</mark> ("case dell'assemblea")</li>
+          <li>morti sepolti nelle <mark>catacombe</mark></li></ul></div>
+        <div class="leaf"><h3>Catacombe <span class="pg">136</span></h3><ul>
+          <li>dal greco "presso le cavità"</li>
+          <li><b>gallerie sotterranee</b> lunghe decine di metri, centinaia di tombe</li>
+          <li>celle chiuse con <b>mattoni</b> o lastre di pietra, a volte decorate con <b>affreschi e incisioni</b></li></ul></div>
+        <div class="leaf"><h3>Dal <mark>313</mark>: Costantino</h3><ul>
+          <li><b>basiliche</b> = grandi edifici per la preghiera collettiva (modello romano)</li>
+          <li><b>battisteri</b> = edifici più piccoli per il battesimo</li></ul></div>
+        <div class="leaf"><h3>Battisteri <span class="pg">136</span></h3><ul>
+          <li>battesimo = <b>immersione totale</b> (come Gesù nel Giordano)</li>
+          <li>al centro la <mark>vasca battesimale</mark></li>
+          <li><b>San Giovanni in Laterano</b> (Roma): vasca circolare, ambiente <b>ottagonale</b>, doppia serie di colonne (V sec.)</li></ul></div>
+        <div class="leaf"><h3>Basilica romana ➜ cristiana <span class="pg">137</span></h3><ul>
+          <li>entrambe a <mark>pianta longitudinale</mark> (rettangolare, lungo l'asse della lunghezza)</li>
+          <li>vedi la tabella qui sotto ⬇️</li></ul></div>
+        <div class="leaf"><h3>Basilica di San Pietro <span class="pg">137</span></h3><ul>
+          <li>voluta da <b>Costantino</b>, IV sec. (319–349)</li>
+          <li><b>demolita nel XVI sec.</b> → la conosciamo da disegni e documenti</li>
+          <li>sull'area di una <b>necropoli</b> dove si pensava fosse sepolto <b>Pietro</b></li>
+          <li>Pietro: crocifisso <b>a testa in giù</b>, non si sentiva degno di morire come Gesù</li></ul></div>
+      </div>
+    </div>
+    <div class="branch p">
+      <div class="head">🎨 Pittura <small>pag. 138 – solo specchietto verde</small></div>
+      <div class="leaves">
+        <div class="leaf"><h3>Dove?</h3><ul><li>prima espressione artistica dei cristiani, sulle <b>pareti delle catacombe</b></li></ul></div>
+        <div class="leaf"><h3>Come?</h3><ul><li>un <mark>linguaggio fatto di immagini</mark> comprensibili <b>solo ai credenti</b></li></ul></div>
+        <div class="leaf"><h3>Da dove vengono le immagini?</h3><ul><li>molte di <b>derivazione romana</b>…</li><li>…ma con <mark>nuovi significati</mark> cristiani</li></ul></div>
+      </div>
+    </div>
+    <div class="branch s">
+      <div class="head">🗿 Scultura <small>pag. 139 – solo specchietto rosa</small></div>
+      <div class="leaves">
+        <div class="leaf"><h3>Che tipo?</h3><ul><li>soprattutto <mark>funeraria</mark> (legata alle sepolture)</li></ul></div>
+        <div class="leaf"><h3>Cosa ci è arrivato?</h3><ul><li><b>bassorilievi</b> nelle catacombe</li><li><b>sarcofagi</b> di fedeli <b>benestanti</b></li></ul></div>
+        <div class="leaf"><h3>Come la pittura…</h3><ul><li>riprende le <b>immagini dell'arte romana</b> ma dà <mark>significati differenti</mark></li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="recap">
+    <div class="box"><h3>⚖️ Basilica romana vs cristiana</h3>
+      <table><tr><th></th><th>Romana</th><th>Cristiana</th></tr>
+      <tr><td>Ingresso</td><td>lato <b>lungo</b></td><td>lato <b>corto</b>, opposto all'abside</td></tr>
+      <tr><td>Absidi</td><td>una o due, sui lati corti</td><td><b>una sola</b></td></tr>
+      <tr><td>Interno</td><td>colonne intorno all'aula centrale</td><td>aula divisa in <b>navate</b> da file di colonne</td></tr></table></div>
+    <div class="box"><h3>🔍 Le parti della basilica (San Pietro)</h3>
+      <table>
+      <tr><td><b>Navata</b></td><td>ambiente lungo; la centrale ha accanto 2 o 4 navate laterali</td></tr>
+      <tr><td><b>Abside</b></td><td>parte semicircolare in fondo, dietro l'altare maggiore</td></tr>
+      <tr><td><b>Catino absidale</b></td><td>semicupola che copre l'abside</td></tr>
+      <tr><td><b>Transetto</b></td><td>area trasversale: chiude le navate e fa la pianta <b>a croce</b></td></tr>
+      <tr><td><b>Capriate</b></td><td>strutture di legno triangolari che reggono il tetto</td></tr>
+      <tr><td><b>Quadriportico</b></td><td>cortile quadrato con portici davanti alla facciata, per i <b>non battezzati</b></td></tr>
+      </table></div>
+    <div class="box"><h3>⚡ In 3 righe</h3>
+      Prima del 313 i cristiani si nascondono (domus ecclesiae, catacombe). Con Costantino nascono basiliche e battisteri. Pittura e scultura usano immagini romane con significati nuovi, cristiani.</div>
+  </div>
+</section>
+
+<!-- ============ BIZANTINA ============ -->
+<section id="biz">
+  <div class="root"><h2>✨ ARTE BIZANTINA A RAVENNA</h2><p>pag. 140–147</p></div>
+  <div class="stem"></div>
+  <div class="branches">
+    <div class="branch a">
+      <div class="head">🏛️ Architettura bizantina <small>pag. 140</small></div>
+      <div class="leaves">
+        <div class="leaf"><h3>Periodo d'oro di Ravenna</h3><ul>
+          <li>dal <mark>402</mark>: capitale dell'Impero romano d'Occidente</li>
+          <li>centro artistico importantissimo per imperatori d'Occidente e d'Oriente, soprattutto <b>Giustiniano</b></li>
+          <li>l'arte bizantina conquistò anche re germanici come <b>Teodorico</b></li></ul></div>
+        <div class="leaf"><h3>Mausoleo di Galla Placidia <span class="pg">140–141</span></h3><ul>
+          <li>Galla Placidia: <b>sorella di Onorio</b> (che spostò la capitale da <b>Milano</b> a Ravenna); governò dal 423 al 450</li>
+          <li>costruito per la <b>sua tomba</b> (mausoleo = edificio funebre monumentale, già ellenistico e romano)</li>
+          <li>pianta <mark>a croce</mark></li>
+          <li>esterno <b>semplice</b>, in <b>mattoni</b>; nicchie = <b>portico cieco</b>; finestre rettangolari allungate come <b>fessure</b></li></ul></div>
+        <div class="leaf"><h3>Chiesa di San Vitale <span class="pg">144</span></h3><ul>
+          <li>526–547; <b>Giustiniano</b> imperatore dal 527, Ravenna riconquistata nel 539</li>
+          <li>elementi bizantini: <mark>pianta centrale</mark> e <mark>cupola</mark></li>
+          <li><b>due ottagoni concentrici</b>: esterno = muri; interno = spazio centrale che sale alla cupola</li>
+          <li>intorno: piccole <b>absidi</b> e un <b>deambulatorio</b></li>
+          <li>alternanza di forme <b>rettilinee e curve</b></li>
+          <li>capitello a <b>tronco di piramide rovesciata</b>, marmo come un pizzo traforato; sopra il <mark>pulvino</mark></li></ul></div>
+      </div>
+    </div>
+    <div class="branch p">
+      <div class="head">🎨 Pittura bizantina = MOSAICO <small>pag. 140–147</small></div>
+      <div class="leaves">
+        <div class="leaf"><h3>Il grande cambiamento <span class="pg">140</span></h3><ul>
+          <li>non interessa più copiare forme e spazio naturali</li>
+          <li>scopo: <mark>mostrare il sacro</mark></li>
+          <li>figure <b>rigide e semplificate</b>, volti poco espressivi, <b>sguardi fissi</b></li>
+          <li>profondità annullata dal <mark>fondo oro</mark> (= il divino)</li></ul></div>
+        <div class="leaf"><h3>Interno di Galla Placidia <span class="pg">141</span></h3><ul>
+          <li>apparato decorativo a <b>mosaico</b>: disegni geometrici, motivi naturali, scene di santi</li>
+          <li>cupola: <mark>cielo stellato</mark> e una croce</li>
+          <li>pareti in basso: <b>marmo giallo</b> che riflette la luce</li>
+          <li>effetto: <b>spazio irreale, ultraterreno</b></li></ul></div>
+        <div class="leaf"><h3>Mosaici di San Vitale <span class="pg">146–147</span></h3><ul>
+          <li>nell'<b>abside</b>: a sinistra il <b>corteo di Giustiniano</b>, a destra quello di <b>Teodora</b> (sua moglie) – metà VI sec.</li>
+          <li>i due protagonisti al centro portano <b>doni all'altare</b></li>
+          <li>accanto a Giustiniano il <b>vescovo Massimiano</b> (scritta MAXIMIANUS)</li>
+          <li>Teodora in una nicchia; a destra una <b>fontana</b> e una <b>porta con tenda</b></li>
+          <li><b>corona</b> = potere terreno · <b>aureola</b> = potere spirituale (dato da Dio). <u>Non</u> erano santi!</li>
+          <li>figure ammucchiate e schiacciate, sguardi fissi: gli artisti (da Costantinopoli) volevano mostrare <b>potere e fede</b>, non la realtà</li></ul></div>
+      </div>
+    </div>
+  </div>
+  <div class="recap">
+    <div class="box"><h3>⚖️ Due tipi di pianta</h3>
+      <table><tr><th>Longitudinale</th><th>Centrale</th></tr>
+      <tr><td>rettangolare, lungo l'asse della lunghezza</td><td>simmetrica attorno a un centro</td></tr>
+      <tr><td>basiliche (San Pietro)</td><td>battisteri, mausolei, San Vitale</td></tr></table></div>
+    <div class="box"><h3>🔑 Parole da sapere</h3><div class="chips">
+      <span>mosaico</span><span>fondo oro</span><span>pianta centrale</span><span>cupola</span><span>deambulatorio</span><span>pulvino</span><span>portico cieco</span><span>aureola</span><span>corona</span><span>mausoleo</span></div></div>
+    <div class="box"><h3>⚡ In 3 righe</h3>
+      Ravenna capitale dal 402. Fuori i palazzi sono semplici, dentro mosaici d'oro che mostrano il sacro. San Vitale: pianta centrale con cupola, e i mosaici di Giustiniano e Teodora con corona e aureola.</div>
+  </div>
+</section>
+
+<!-- ============ LONGOBARDA ============ -->
+<section id="lon">
+  <div class="root"><h2>⚔️ ARTE LONGOBARDA</h2><p>pag. 148 (solo specchietto rosa) · pag. 150 (solo specchietto azzurro)</p></div>
+  <div class="stem"></div>
+  <div class="branches">
+    <div class="branch s">
+      <div class="head">🗿 Oreficeria e scultura <small>pag. 148</small></div>
+      <div class="leaves">
+        <div class="leaf"><h3>Perché oggetti piccoli?</h3><ul><li>i popoli barbari erano <mark>nomadi</mark></li><li>→ oggetti di <b>piccole dimensioni</b>, adatti al <b>trasporto</b></li></ul></div>
+        <div class="leaf"><h3>Com'era l'oreficeria?</h3><ul><li><b>oreficeria</b> = arte di lavorare oro, argento e pietre preziose</li><li>oggetti straordinari con <mark>decorazioni geometriche</mark></li><li>e <mark>colori vivaci</mark></li></ul></div>
+        <div class="leaf"><h3>E la scultura?</h3><ul><li>le stesse caratteristiche si ritrovano nelle <b>sculture che decorano le architetture</b> dell'Italia longobarda</li></ul></div>
+      </div>
+    </div>
+    <div class="branch a">
+      <div class="head">🏛️ Architettura <small>pag. 150</small></div>
+      <div class="leaves">
+        <div class="leaf"><h3>Un intreccio culturale di 3 tradizioni</h3><ul>
+          <li>🪓 <b>barbara</b> (dei popoli barbari)</li>
+          <li>🏺 <b>classica</b> → attenta a <mark>natura e proporzione</mark></li>
+          <li>✨ <b>bizantina</b> → attenta alla <mark>rappresentazione del sacro</mark></li></ul></div>
+        <div class="leaf"><h3>Dove?</h3><ul><li>in <b>tutta la penisola</b>, soprattutto Friuli-Venezia Giulia, Lombardia, Umbria, Campania e Puglia</li></ul></div>
+      </div>
+    </div>
+  </div>
+  <div class="recap">
+    <div class="box"><h3>⚡ In 3 righe</h3>Nomadi → oggetti piccoli e trasportabili, con decorazioni geometriche e colori vivaci. Architettura = barbaro + classico + bizantino, in tutta Italia.</div>
+  </div>
+</section>
+
+<!-- ============ CAROLINGIA ============ -->
+<section id="car">
+  <div class="root"><h2>👑 ARTE CAROLINGIA</h2><p>pag. 152 · pag. 153 (solo specchietto verde)</p></div>
+  <div class="stem"></div>
+  <div class="branches">
+    <div class="branch s">
+      <div class="head">🗿 Oreficeria carolingia <small>pag. 152</small></div>
+      <div class="leaves">
+        <div class="leaf"><h3>Caratteristiche</h3><ul>
+          <li>ripresa dei temi e delle tecniche dell'<mark>arte romana</mark></li>
+          <li>prima: <b>armi, ornamenti</b> e oggetti per aristocratici</li>
+          <li>poi: <b>rivestimenti in bassorilievo</b> che <b>narrano</b> storie di santi o dei testi sacri</li></ul></div>
+        <div class="leaf"><h3>Altare di Vuolvinio – chi, dove, quando</h3><ul>
+          <li>opera di oreficeria carolingia più importante, giunta <b>intatta</b> e ancora al suo posto</li>
+          <li><b>Basilica di Sant'Ambrogio, Milano</b> · metà IX sec. (824–860)</li>
+          <li>artista <b>Vuolvinio</b>, su incarico dell'arcivescovo <b>Angilberto II</b></li>
+          <li>per dare sepoltura a <b>sant'Ambrogio</b> e ai santi Gervasio e Protasio</li></ul></div>
+        <div class="leaf"><h3>Com'è fatto</h3><ul>
+          <li>cassa di <b>legno</b> rivestita di <mark>lamine d'oro e d'argento</mark> lavorate a <mark>sbalzo</mark></li>
+          <li>inserti di <b>smalti colorati</b> e <b>pietre preziose</b></li>
+          <li><b>lato verso i fedeli</b>, 3 parti: ai lati storie di Cristo; al centro croce con <b>Cristo in maestà</b> nella mandorla e i <b>12 apostoli</b> a gruppi di tre</li>
+          <li><b>lato posteriore</b>: vita di sant'Ambrogio; Vuolvinio si firma <i>magister phaber</i> ("maestro artefice"), cosa rarissima</li></ul></div>
+        <div class="leaf"><h3>3 stili insieme</h3><ul>
+          <li>🏺 <b>classico</b>: proporzioni e posizioni naturali</li>
+          <li>🪓 <b>barbarico</b>: pietre incastonate nel metallo</li>
+          <li>✨ <b>bizantino</b>: rigidità solenne delle figure (Cristo)</li></ul></div>
+      </div>
+    </div>
+    <div class="branch p">
+      <div class="head">🎨 Pittura carolingia <small>pag. 153 – solo specchietto verde</small></div>
+      <div class="leaves">
+        <div class="leaf"><h3>Cosa ci resta?</h3><ul><li><b>poche</b> pitture murali</li><li><b>tanti libri manoscritti</b> con illustrazioni preziose: le <mark>miniature</mark></li></ul></div>
+        <div class="leaf"><h3>Da dove viene la parola?</h3><ul><li>da <mark>minio</mark>, un inchiostro <b>rosso</b> usato per decorare le pagine</li></ul></div>
+        <div class="leaf"><h3>Chi e dove?</h3><ul><li>nei <mark>monasteri</mark> (comunità religiose, in Europa dal IV sec.)</li><li><b>amanuensi</b> = copiano a mano i testi</li><li><b>miniatori</b> = fanno le illustrazioni</li></ul></div>
+        <div class="leaf"><h3>Su cosa?</h3><ul><li>fogli di <mark>pergamena</mark>, fatta con pelli di animali</li></ul></div>
+      </div>
+    </div>
+  </div>
+  <div class="recap">
+    <div class="box"><h3>🔑 Parole da sapere</h3><div class="chips"><span>sbalzo</span><span>smalti</span><span>Cristo in maestà</span><span>mandorla</span><span>magister phaber</span><span>miniatura</span><span>minio</span><span>amanuense</span><span>miniatore</span><span>pergamena</span></div></div>
+    <div class="box"><h3>⚡ In 3 righe</h3>I Carolingi riprendono l'arte romana. Capolavoro: l'Altare di Vuolvinio (Milano), in oro e argento a sbalzo. In pittura restano soprattutto le miniature dei manoscritti, fatte nei monasteri su pergamena.</div>
+  </div>
+</section>
+</main>
+
+</body>
+</html>

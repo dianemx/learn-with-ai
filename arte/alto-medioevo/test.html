@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test v2 – Arte dell'Alto Medioevo (con mappa)</title>
+<style>
+:root{--ink:#1d2433;--muted:#5b6475;--paper:#fffdf8;--line:#dfe2e8;--ok:#1f9d55;--ok-bg:#e3f6ea;--ko:#d64545;--ko-bg:#fde8e8;--acc:#5b4bdb;--acc-bg:#ecebfd;
+--P:#8a5a2b;--B:#b8860b;--L:#c2457f;--C:#2f6fae}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif;background:var(--paper);color:var(--ink);font-size:18px;line-height:1.55;letter-spacing:.01em}
+.wrap{max-width:760px;margin:auto;padding:18px 18px 80px}
+h1{font-size:28px;margin:6px 0 4px}
+.muted{color:var(--muted)}
+button{font:inherit;cursor:pointer}
+.btn{border:none;border-radius:14px;padding:13px 22px;font-weight:600;font-size:18px;background:var(--acc);color:#fff}
+.btn:disabled{opacity:.4;cursor:default}
+.btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--line)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:18px 0}
+.card{border:3px solid var(--line);background:#fff;border-radius:16px;padding:14px;text-align:left}
+.card.on{border-color:var(--acc);background:var(--acc-bg)}
+.card b{display:block;font-size:18px}
+.card span{font-size:14px;color:var(--muted)}
+.opts{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:8px 0 20px;font-size:16px}
+.opts label{display:flex;gap:8px;align-items:center;cursor:pointer}
+.opts input{width:20px;height:20px}
+/* top bar */
+.top{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:15px}
+.bar{flex:1;height:12px;background:#eceef3;border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--acc);border-radius:99px;transition:width .3s}
+.streak{font-weight:700}
+.tag{display:inline-block;font-size:13px;font-weight:700;color:#fff;border-radius:8px;padding:2px 9px;margin-right:6px}
+.type{font-size:14px;color:var(--muted);font-weight:600}
+.q{font-size:22px;font-weight:600;margin:10px 0 18px;line-height:1.45}
+.speak{border:2px solid var(--line);background:#fff;border-radius:10px;padding:2px 9px;font-size:16px;margin-left:6px;vertical-align:middle}
+.ans{display:grid;gap:10px}
+.ans button{text-align:left;border:3px solid var(--line);background:#fff;border-radius:14px;padding:13px 16px;font-size:18px;display:flex;gap:12px;align-items:flex-start}
+.ans button .k{flex:none;width:28px;height:28px;border-radius:8px;background:#f0f1f5;display:grid;place-items:center;font-weight:700;font-size:15px}
+.ans button:hover:not(:disabled){border-color:var(--acc)}
+.ans button.ok{border-color:var(--ok);background:var(--ok-bg)}
+.ans button.ko{border-color:var(--ko);background:var(--ko-bg)}
+.ans button:disabled{cursor:default}
+.vf{grid-template-columns:1fr 1fr}
+.vf button{justify-content:center;font-size:22px;font-weight:700;padding:18px}
+/* fill */
+.sent{font-size:21px;line-height:2.3;margin:4px 0 16px}
+.blank{display:inline-block;min-width:110px;border-bottom:3px solid var(--acc);text-align:center;padding:0 8px;margin:0 3px;border-radius:6px;background:var(--acc-bg);cursor:pointer;line-height:1.6;font-weight:600}
+.blank.empty{color:transparent}
+.blank.cur{outline:3px solid #ffd54a}
+.blank.ok{background:var(--ok-bg);border-color:var(--ok)}
+.blank.ko{background:var(--ko-bg);border-color:var(--ko)}
+.blank .fix{color:var(--ok);font-size:15px;display:block;line-height:1.1;margin-top:-4px}
+.bank{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.chip{border:3px solid var(--line);background:#fff;border-radius:12px;padding:8px 14px;font-size:18px;font-weight:600}
+.chip.used{opacity:.25}
+/* feedback */
+.fb{border-radius:16px;padding:16px 18px;margin-top:18px;animation:pop .25s}
+.fb.ok{background:var(--ok-bg);border:3px solid var(--ok)}
+.fb.ko{background:var(--ko-bg);border:3px solid var(--ko)}
+.fb h3{margin:0 0 6px;font-size:21px}
+.fb p{margin:6px 0}
+.theory{background:#fff;border-radius:12px;padding:10px 13px;margin-top:10px;font-size:16px;border-left:6px solid var(--acc)}
+.theory b{color:var(--acc)}
+@keyframes pop{from{transform:scale(.97);opacity:0}to{transform:none;opacity:1}}
+.next{margin-top:16px;display:flex;justify-content:flex-end;gap:10px}
+.center{text-align:center}
+.big{font-size:56px;margin:6px 0}
+.res{display:grid;gap:8px;margin:16px 0}
+.res .row{display:flex;align-items:center;gap:10px;font-size:16px}
+.res .row .bar{height:16px}
+.err{border:2px solid var(--line);background:#fff;border-radius:14px;padding:12px 14px;margin:10px 0;font-size:16px}
+.err .qq{font-weight:600}
+.err .g{color:var(--ok);font-weight:600}
+.pause{background:#fff7d6;border-radius:18px;padding:22px;text-align:center}
+.hint{font-size:14px;color:var(--muted);margin-top:8px}
+
+/* ---- mappa (scoped) ---- */
+.mp{--arch:#2f6fae;--arch-bg:#e4effa;--pitt:#1f8a73;--pitt-bg:#dff3ee;--scul:#c2457f;--scul-bg:#fbe6f0;--yellow:#ffe680;font-size:16px}
+.mp section{display:block;margin:0 0 34px}
+.mp .root{background:var(--ink);color:#fff;border-radius:16px;padding:14px 18px;text-align:center;margin-bottom:8px}
+.mp .root h2{margin:0;font-size:22px}.mp .root p{margin:4px 0 0;opacity:.85;font-size:14px}
+.mp .stem{width:3px;height:16px;background:var(--line);margin:0 auto}
+.mp .branches{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.mp .branch{border-radius:16px;padding:0 0 8px;border:2px solid var(--line);background:#fff}
+.mp .branch>.head{border-radius:14px 14px 0 0;padding:9px 13px;color:#fff;font-weight:700;font-size:17px}
+.mp .a>.head{background:var(--arch)}.mp .p>.head{background:var(--pitt)}.mp .s>.head{background:var(--scul)}
+.mp .head small{display:block;font-weight:400;font-size:13px;opacity:.9}
+.mp .leaves{padding:6px 12px 0 24px;position:relative}
+.mp .leaves:before{content:"";position:absolute;left:12px;top:8px;bottom:12px;width:3px;border-radius:3px}
+.mp .a .leaves:before{background:var(--arch-bg)}.mp .p .leaves:before{background:var(--pitt-bg)}.mp .s .leaves:before{background:var(--scul-bg)}
+.mp .leaf{position:relative;margin:9px 0;padding:9px 11px;border-radius:12px;border:3px solid transparent}
+.mp .leaf:before{content:"";position:absolute;left:-15px;top:18px;width:12px;height:3px}
+.mp .a .leaf{background:var(--arch-bg)}.mp .a .leaf:before{background:var(--arch-bg)}
+.mp .p .leaf{background:var(--pitt-bg)}.mp .p .leaf:before{background:var(--pitt-bg)}
+.mp .s .leaf{background:var(--scul-bg)}.mp .s .leaf:before{background:var(--scul-bg)}
+.mp .leaf h3{margin:0 0 4px;font-size:16px}.mp .leaf ul{margin:0;padding-left:18px}.mp .leaf li{margin:2px 0}
+.mp .pg{display:inline-block;font-size:12px;font-weight:600;background:#fff;border-radius:6px;padding:1px 7px;margin-left:4px;color:var(--muted);vertical-align:middle}
+.mp mark{background:var(--yellow);padding:0 3px;border-radius:4px;color:inherit}
+.mp .recap{margin-top:18px;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.mp .box{border:2px dashed var(--line);border-radius:16px;padding:12px 14px;background:#fff}
+.mp .box h3{margin:0 0 8px;font-size:16px}
+.mp .chips{display:flex;flex-wrap:wrap;gap:6px}.mp .chips span{background:#f1f2f6;border-radius:8px;padding:3px 9px;font-size:14px}
+.mp table{border-collapse:collapse;width:100%;font-size:15px}.mp td,.mp th{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}.mp th{background:#f4f5f8}
+.mp .tl{position:relative;padding-left:30px}
+.mp .tl:before{content:"";position:absolute;left:11px;top:0;bottom:0;width:4px;background:var(--line);border-radius:4px}
+.mp .era{margin:18px 0 6px;font-weight:700;font-size:18px}
+.mp .ev{position:relative;background:#fff;border:2px solid var(--line);border-radius:12px;padding:8px 12px;margin:8px 0}
+.mp .ev:before{content:"";position:absolute;left:-26px;top:13px;width:14px;height:14px;border-radius:50%;background:var(--c,#888);border:3px solid var(--paper)}
+.mp .ev .d{font-weight:700;color:var(--c);margin-right:8px}
+.mp .e1{--c:#8a5a2b}.mp .e2{--c:#b8860b}.mp .e3{--c:#c2457f}.mp .e4{--c:#2f6fae}
+.mp .note,.mp .tip{font-size:14px;color:var(--muted)}.mp .tip{background:#fff7d6;border-radius:12px;padding:8px 12px;color:var(--ink)}
+.hit{background:#ff9f43!important;color:#1d2433;border-radius:4px;padding:0 3px;font-weight:700;box-shadow:0 0 0 2px #ff9f43}
+.mapfb{margin-top:12px;background:#fff;border-radius:14px;padding:12px}
+.mapfb .mf-t{font-weight:700;margin-bottom:6px}
+.crumb{font-size:13px;color:var(--muted);font-weight:600;margin:8px 0 4px}
+.mapfb .branch{border:none;padding:0}.mapfb .leaves{padding:0}.mapfb .leaves:before,.mapfb .leaf:before{display:none}.mapfb .leaf{margin:0}
+.mapfb .tl{max-height:none}
+/* review */
+.mp .rv{position:relative}
+.mp .r-ko{border-color:var(--ko)!important;box-shadow:0 0 0 2px var(--ko)}
+.mp .r-ok{border-color:var(--ok)!important}
+.badge{display:inline-block;font-size:13px;font-weight:700;background:#fff;border-radius:8px;padding:1px 8px;margin-bottom:4px;border:2px solid var(--line)}
+.rvhead{position:sticky;top:0;background:var(--paper);z-index:3;padding:10px 0;border-bottom:2px solid var(--line);margin-bottom:14px}
+.leg2{display:flex;flex-wrap:wrap;gap:12px;font-size:14px;margin-top:6px}
+.leg2 span{border:3px solid;border-radius:8px;padding:1px 8px}
+.secnav{display:flex;gap:8px;overflow-x:auto;margin-top:8px}
+.secnav a{white-space:nowrap;border:2px solid var(--line);border-radius:999px;padding:4px 12px;font-size:14px;color:var(--ink);text-decoration:none;background:#fff}
+
+/* forza colori leggibili anche se il visualizzatore impone colori ai pulsanti */
+:root body button,:root body button *,:root body input,:root body label,:root body a{color:#1d2433!important;-webkit-text-fill-color:#1d2433!important}
+:root body .card span{color:#5b6475!important;-webkit-text-fill-color:#5b6475!important}
+:root body .btn,:root body .btn *{color:#fff!important;-webkit-text-fill-color:#fff!important}
+:root body .btn.ghost,:root body .btn.ghost *{color:#1d2433!important;-webkit-text-fill-color:#1d2433!important}
+:root body nav button.on{color:#fff!important;-webkit-text-fill-color:#fff!important}
+:root body .tag{color:#fff!important;-webkit-text-fill-color:#fff!important}
+:root body .blank.empty{color:transparent!important;-webkit-text-fill-color:transparent!important}
+:root body .blank .fix{color:#1f9d55!important;-webkit-text-fill-color:#1f9d55!important}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<template id="mapsrc"><section class="on" id="tl">
+<div class="tip">💡 Trucco: ricorda l'ordine dei 4 periodi con <b>P – B – L – C</b> → <b>P</b>aleocristiano, <b>B</b>izantino, <b>L</b>ongobardo, <b>C</b>arolingio.</div>
+<div class="tl">
+<div class="era" style="color:#8a5a2b">✝️ Arte paleocristiana</div>
+<div class="ev e1"><span class="d">prima del 313</span>i cristiani pregano di nascosto nelle <b>domus ecclesiae</b> e seppelliscono i morti nelle <b>catacombe</b></div>
+<div class="ev e1"><span class="d">313 d.C.</span><b>Costantino</b> promuove i primi edifici cristiani: <b>basiliche</b> e <b>battisteri</b></div>
+<div class="ev e1"><span class="d">319–349</span>costruzione della <b>Basilica di San Pietro</b> (Roma)</div>
+<div class="ev e1"><span class="d">V secolo</span><b>Battistero di San Giovanni in Laterano</b>: si aggiunge la doppia serie di colonne attorno alla vasca</div>
+<div class="era" style="color:#b8860b">✨ Arte bizantina a Ravenna</div>
+<div class="ev e2"><span class="d">402</span><b>Ravenna</b> diventa capitale dell'Impero romano d'Occidente (Onorio la sposta da Milano)</div>
+<div class="ev e2"><span class="d">423–450</span><b>Galla Placidia</b> governa Ravenna</div>
+<div class="ev e2"><span class="d">metà V sec.</span><b>Mausoleo di Galla Placidia</b></div>
+<div class="ev e2"><span class="d">526–547</span><b>Chiesa (Basilica) di San Vitale</b></div>
+<div class="ev e2"><span class="d">527</span><b>Giustiniano</b> sale al trono dell'Impero d'Oriente</div>
+<div class="ev e2"><span class="d">539</span>i Bizantini riconquistano Ravenna</div>
+<div class="ev e2"><span class="d">metà VI sec.</span><b>mosaici di Giustiniano e Teodora</b> in San Vitale</div>
+<div class="era" style="color:#c2457f">⚔️ Arte longobarda</div>
+<div class="ev e3"><span class="d">dopo Giustiniano</span>i <b>Longobardi</b> dominano gran parte dell'Italia: oreficeria e architettura longobarda</div>
+<div class="era" style="color:#2f6fae">👑 Arte carolingia</div>
+<div class="ev e4"><span class="d">IX secolo (824–860)</span><b>Altare di Vuolvinio</b>, Sant'Ambrogio, Milano</div>
+<div class="era" style="color:#555">…e molto dopo</div>
+<div class="ev"><span class="d" style="color:#555">XVI secolo</span>l'antica San Pietro viene <b>demolita</b> per costruire quella attuale</div>
+</div>
+<p class="note">Le date sono quelle scritte nelle pagine del libro da studiare. Per Longobardi e Carolingi nelle parti richieste non ci sono date precise: conta l'ordine. Confronta con la linea del tempo del quaderno.</p>
+</section><section id="pal">
+<div class="root"><h2>✝️ ARTE PALEOCRISTIANA</h2><p>l'arte dei primi cristiani · pag. 136–139</p></div>
+<div class="stem"></div>
+<div class="branches">
+<div class="branch a">
+<div class="head">🏛️ Architettura <small>pag. 136–137</small></div>
+<div class="leaves">
+<div class="leaf"><h3>All'inizio: fede nascosta</h3><ul>
+<li>preghiera nelle case private = <mark>domus ecclesiae</mark> ("case dell'assemblea")</li>
+<li>morti sepolti nelle <mark>catacombe</mark></li></ul></div>
+<div class="leaf"><h3>Catacombe <span class="pg">136</span></h3><ul>
+<li>dal greco "presso le cavità"</li>
+<li><b>gallerie sotterranee</b> lunghe decine di metri, centinaia di tombe</li>
+<li>celle chiuse con <b>mattoni</b> o lastre di pietra, a volte decorate con <b>affreschi e incisioni</b></li></ul></div>
+<div class="leaf"><h3>Dal <mark>313</mark>: Costantino</h3><ul>
+<li><b>basiliche</b> = grandi edifici per la preghiera collettiva (modello romano)</li>
+<li><b>battisteri</b> = edifici più piccoli per il battesimo</li></ul></div>
+<div class="leaf"><h3>Battisteri <span class="pg">136</span></h3><ul>
+<li>battesimo = <b>immersione totale</b> (come Gesù nel Giordano)</li>
+<li>al centro la <mark>vasca battesimale</mark></li>
+<li><b>San Giovanni in Laterano</b> (Roma): vasca circolare, ambiente <b>ottagonale</b>, doppia serie di colonne (V sec.)</li></ul></div>
+<div class="leaf"><h3>Basilica romana ➜ cristiana <span class="pg">137</span></h3><ul>
+<li>entrambe a <mark>pianta longitudinale</mark> (rettangolare, lungo l'asse della lunghezza)</li>
+<li>vedi la tabella qui sotto ⬇️</li></ul></div>
+<div class="leaf"><h3>Basilica di San Pietro <span class="pg">137</span></h3><ul>
+<li>voluta da <b>Costantino</b>, IV sec. (319–349)</li>
+<li><b>demolita nel XVI sec.</b> → la conosciamo da disegni e documenti</li>
+<li>sull'area di una <b>necropoli</b> dove si pensava fosse sepolto <b>Pietro</b></li>
+<li>Pietro: crocifisso <b>a testa in giù</b>, non si sentiva degno di morire come Gesù</li></ul></div>
+</div>
+</div>
+<div class="branch p">
+<div class="head">🎨 Pittura <small>pag. 138 – solo specchietto verde</small></div>
+<div class="leaves">
+<div class="leaf"><h3>Dove?</h3><ul><li>prima espressione artistica dei cristiani, sulle <b>pareti delle catacombe</b></li></ul></div>
+<div class="leaf"><h3>Come?</h3><ul><li>un <mark>linguaggio fatto di immagini</mark> comprensibili <b>solo ai credenti</b></li></ul></div>
+<div class="leaf"><h3>Da dove vengono le immagini?</h3><ul><li>molte di <b>derivazione romana</b>…</li><li>…ma con <mark>nuovi significati</mark> cristiani</li></ul></div>
+</div>
+</div>
+<div class="branch s">
+<div class="head">🗿 Scultura <small>pag. 139 – solo specchietto rosa</small></div>
+<div class="leaves">
+<div class="leaf"><h3>Che tipo?</h3><ul><li>soprattutto <mark>funeraria</mark> (legata alle sepolture)</li></ul></div>
+<div class="leaf"><h3>Cosa ci è arrivato?</h3><ul><li><b>bassorilievi</b> nelle catacombe</li><li><b>sarcofagi</b> di fedeli <b>benestanti</b></li></ul></div>
+<div class="leaf"><h3>Come la pittura…</h3><ul><li>riprende le <b>immagini dell'arte romana</b> ma dà <mark>significati differenti</mark></li></ul></div>
+</div>
+</div>
+</div>
+<div class="recap">
+<div class="box"><h3>⚖️ Basilica romana vs cristiana</h3>
+<table><tr><th></th><th>Romana</th><th>Cristiana</th></tr>
+<tr><td>Ingresso</td><td>lato <b>lungo</b></td><td>lato <b>corto</b>, opposto all'abside</td></tr>
+<tr><td>Absidi</td><td>una o due, sui lati corti</td><td><b>una sola</b></td></tr>
+<tr><td>Interno</td><td>colonne intorno all'aula centrale</td><td>aula divisa in <b>navate</b> da file di colonne</td></tr></table></div>
+<div class="box"><h3>🔍 Le parti della basilica (San Pietro)</h3>
+<table>
+<tr><td><b>Navata</b></td><td>ambiente lungo; la centrale ha accanto 2 o 4 navate laterali</td></tr>
+<tr><td><b>Abside</b></td><td>parte semicircolare in fondo, dietro l'altare maggiore</td></tr>
+<tr><td><b>Catino absidale</b></td><td>semicupola che copre l'abside</td></tr>
+<tr><td><b>Transetto</b></td><td>area trasversale: chiude le navate e fa la pianta <b>a croce</b></td></tr>
+<tr><td><b>Capriate</b></td><td>strutture di legno triangolari che reggono il tetto</td></tr>
+<tr><td><b>Quadriportico</b></td><td>cortile quadrato con portici davanti alla facciata, per i <b>non battezzati</b></td></tr>
+</table></div>
+<div class="box"><h3>⚡ In 3 righe</h3>
+      Prima del 313 i cristiani si nascondono (domus ecclesiae, catacombe). Con Costantino nascono basiliche e battisteri. Pittura e scultura usano immagini romane con significati nuovi, cristiani.</div>
+</div>
+</section><section id="biz">
+<div class="root"><h2>✨ ARTE BIZANTINA A RAVENNA</h2><p>pag. 140–147</p></div>
+<div class="stem"></div>
+<div class="branches">
+<div class="branch a">
+<div class="head">🏛️ Architettura bizantina <small>pag. 140</small></div>
+<div class="leaves">
+<div class="leaf"><h3>Periodo d'oro di Ravenna</h3><ul>
+<li>dal <mark>402</mark>: capitale dell'Impero romano d'Occidente</li>
+<li>centro artistico importantissimo per imperatori d'Occidente e d'Oriente, soprattutto <b>Giustiniano</b></li>
+<li>l'arte bizantina conquistò anche re germanici come <b>Teodorico</b></li></ul></div>
+<div class="leaf"><h3>Mausoleo di Galla Placidia <span class="pg">140–141</span></h3><ul>
+<li>Galla Placidia: <b>sorella di Onorio</b> (che spostò la capitale da <b>Milano</b> a Ravenna); governò dal 423 al 450</li>
+<li>costruito per la <b>sua tomba</b> (mausoleo = edificio funebre monumentale, già ellenistico e romano)</li>
+<li>pianta <mark>a croce</mark></li>
+<li>esterno <b>semplice</b>, in <b>mattoni</b>; nicchie = <b>portico cieco</b>; finestre rettangolari allungate come <b>fessure</b></li></ul></div>
+<div class="leaf"><h3>Chiesa di San Vitale <span class="pg">144</span></h3><ul>
+<li>526–547; <b>Giustiniano</b> imperatore dal 527, Ravenna riconquistata nel 539</li>
+<li>elementi bizantini: <mark>pianta centrale</mark> e <mark>cupola</mark></li>
+<li><b>due ottagoni concentrici</b>: esterno = muri; interno = spazio centrale che sale alla cupola</li>
+<li>intorno: piccole <b>absidi</b> e un <b>deambulatorio</b></li>
+<li>alternanza di forme <b>rettilinee e curve</b></li>
+<li>capitello a <b>tronco di piramide rovesciata</b>, marmo come un pizzo traforato; sopra il <mark>pulvino</mark></li></ul></div>
+</div>
+</div>
+<div class="branch p">
+<div class="head">🎨 Pittura bizantina = MOSAICO <small>pag. 140–147</small></div>
+<div class="leaves">
+<div class="leaf"><h3>Il grande cambiamento <span class="pg">140</span></h3><ul>
+<li>non interessa più copiare forme e spazio naturali</li>
+<li>scopo: <mark>mostrare il sacro</mark></li>
+<li>figure <b>rigide e semplificate</b>, volti poco espressivi, <b>sguardi fissi</b></li>
+<li>profondità annullata dal <mark>fondo oro</mark> (= il divino)</li></ul></div>
+<div class="leaf"><h3>Interno di Galla Placidia <span class="pg">141</span></h3><ul>
+<li>apparato decorativo a <b>mosaico</b>: disegni geometrici, motivi naturali, scene di santi</li>
+<li>cupola: <mark>cielo stellato</mark> e una croce</li>
+<li>pareti in basso: <b>marmo giallo</b> che riflette la luce</li>
+<li>effetto: <b>spazio irreale, ultraterreno</b></li></ul></div>
+<div class="leaf"><h3>Mosaici di San Vitale <span class="pg">146–147</span></h3><ul>
+<li>nell'<b>abside</b>: a sinistra il <b>corteo di Giustiniano</b>, a destra quello di <b>Teodora</b> (sua moglie) – metà VI sec.</li>
+<li>i due protagonisti al centro portano <b>doni all'altare</b></li>
+<li>accanto a Giustiniano il <b>vescovo Massimiano</b> (scritta MAXIMIANUS)</li>
+<li>Teodora in una nicchia; a destra una <b>fontana</b> e una <b>porta con tenda</b></li>
+<li><b>corona</b> = potere terreno · <b>aureola</b> = potere spirituale (dato da Dio). <u>Non</u> erano santi!</li>
+<li>figure ammucchiate e schiacciate, sguardi fissi: gli artisti (da Costantinopoli) volevano mostrare <b>potere e fede</b>, non la realtà</li></ul></div>
+</div>
+</div>
+</div>
+<div class="recap">
+<div class="box"><h3>⚖️ Due tipi di pianta</h3>
+<table><tr><th>Longitudinale</th><th>Centrale</th></tr>
+<tr><td>rettangolare, lungo l'asse della lunghezza</td><td>simmetrica attorno a un centro</td></tr>
+<tr><td>basiliche (San Pietro)</td><td>battisteri, mausolei, San Vitale</td></tr></table></div>
+<div class="box"><h3>🔑 Parole da sapere</h3><div class="chips">
+<span>mosaico</span><span>fondo oro</span><span>pianta centrale</span><span>cupola</span><span>deambulatorio</span><span>pulvino</span><span>portico cieco</span><span>aureola</span><span>corona</span><span>mausoleo</span></div></div>
+<div class="box"><h3>⚡ In 3 righe</h3>
+      Ravenna capitale dal 402. Fuori i palazzi sono semplici, dentro mosaici d'oro che mostrano il sacro. San Vitale: pianta centrale con cupola, e i mosaici di Giustiniano e Teodora con corona e aureola.</div>
+</div>
+</section><section id="lon">
+<div class="root"><h2>⚔️ ARTE LONGOBARDA</h2><p>pag. 148 (solo specchietto rosa) · pag. 150 (solo specchietto azzurro)</p></div>
+<div class="stem"></div>
+<div class="branches">
+<div class="branch s">
+<div class="head">🗿 Oreficeria e scultura <small>pag. 148</small></div>
+<div class="leaves">
+<div class="leaf"><h3>Perché oggetti piccoli?</h3><ul><li>i popoli barbari erano <mark>nomadi</mark></li><li>→ oggetti di <b>piccole dimensioni</b>, adatti al <b>trasporto</b></li></ul></div>
+<div class="leaf"><h3>Com'era l'oreficeria?</h3><ul><li><b>oreficeria</b> = arte di lavorare oro, argento e pietre preziose</li><li>oggetti straordinari con <mark>decorazioni geometriche</mark></li><li>e <mark>colori vivaci</mark></li></ul></div>
+<div class="leaf"><h3>E la scultura?</h3><ul><li>le stesse caratteristiche si ritrovano nelle <b>sculture che decorano le architetture</b> dell'Italia longobarda</li></ul></div>
+</div>
+</div>
+<div class="branch a">
+<div class="head">🏛️ Architettura <small>pag. 150</small></div>
+<div class="leaves">
+<div class="leaf"><h3>Un intreccio culturale di 3 tradizioni</h3><ul>
+<li>🪓 <b>barbara</b> (dei popoli barbari)</li>
+<li>🏺 <b>classica</b> → attenta a <mark>natura e proporzione</mark></li>
+<li>✨ <b>bizantina</b> → attenta alla <mark>rappresentazione del sacro</mark></li></ul></div>
+<div class="leaf"><h3>Dove?</h3><ul><li>in <b>tutta la penisola</b>, soprattutto Friuli-Venezia Giulia, Lombardia, Umbria, Campania e Puglia</li></ul></div>
+</div>
+</div>
+</div>
+<div class="recap">
+<div class="box"><h3>⚡ In 3 righe</h3>Nomadi → oggetti piccoli e trasportabili, con decorazioni geometriche e colori vivaci. Architettura = barbaro + classico + bizantino, in tutta Italia.</div>
+</div>
+</section><section id="car">
+<div class="root"><h2>👑 ARTE CAROLINGIA</h2><p>pag. 152 · pag. 153 (solo specchietto verde)</p></div>
+<div class="stem"></div>
+<div class="branches">
+<div class="branch s">
+<div class="head">🗿 Oreficeria carolingia <small>pag. 152</small></div>
+<div class="leaves">
+<div class="leaf"><h3>Caratteristiche</h3><ul>
+<li>ripresa dei temi e delle tecniche dell'<mark>arte romana</mark></li>
+<li>prima: <b>armi, ornamenti</b> e oggetti per aristocratici</li>
+<li>poi: <b>rivestimenti in bassorilievo</b> che <b>narrano</b> storie di santi o dei testi sacri</li></ul></div>
+<div class="leaf"><h3>Altare di Vuolvinio – chi, dove, quando</h3><ul>
+<li>opera di oreficeria carolingia più importante, giunta <b>intatta</b> e ancora al suo posto</li>
+<li><b>Basilica di Sant'Ambrogio, Milano</b> · metà IX sec. (824–860)</li>
+<li>artista <b>Vuolvinio</b>, su incarico dell'arcivescovo <b>Angilberto II</b></li>
+<li>per dare sepoltura a <b>sant'Ambrogio</b> e ai santi Gervasio e Protasio</li></ul></div>
+<div class="leaf"><h3>Com'è fatto</h3><ul>
+<li>cassa di <b>legno</b> rivestita di <mark>lamine d'oro e d'argento</mark> lavorate a <mark>sbalzo</mark></li>
+<li>inserti di <b>smalti colorati</b> e <b>pietre preziose</b></li>
+<li><b>lato verso i fedeli</b>, 3 parti: ai lati storie di Cristo; al centro croce con <b>Cristo in maestà</b> nella mandorla e i <b>12 apostoli</b> a gruppi di tre</li>
+<li><b>lato posteriore</b>: vita di sant'Ambrogio; Vuolvinio si firma <i>magister phaber</i> ("maestro artefice"), cosa rarissima</li></ul></div>
+<div class="leaf"><h3>3 stili insieme</h3><ul>
+<li>🏺 <b>classico</b>: proporzioni e posizioni naturali</li>
+<li>🪓 <b>barbarico</b>: pietre incastonate nel metallo</li>
+<li>✨ <b>bizantino</b>: rigidità solenne delle figure (Cristo)</li></ul></div>
+</div>
+</div>
+<div class="branch p">
+<div class="head">🎨 Pittura carolingia <small>pag. 153 – solo specchietto verde</small></div>
+<div class="leaves">
+<div class="leaf"><h3>Cosa ci resta?</h3><ul><li><b>poche</b> pitture murali</li><li><b>tanti libri manoscritti</b> con illustrazioni preziose: le <mark>miniature</mark></li></ul></div>
+<div class="leaf"><h3>Da dove viene la parola?</h3><ul><li>da <mark>minio</mark>, un inchiostro <b>rosso</b> usato per decorare le pagine</li></ul></div>
+<div class="leaf"><h3>Chi e dove?</h3><ul><li>nei <mark>monasteri</mark> (comunità religiose, in Europa dal IV sec.)</li><li><b>amanuensi</b> = copiano a mano i testi</li><li><b>miniatori</b> = fanno le illustrazioni</li></ul></div>
+<div class="leaf"><h3>Su cosa?</h3><ul><li>fogli di <mark>pergamena</mark>, fatta con pelli di animali</li></ul></div>
+</div>
+</div>
+</div>
+<div class="recap">
+<div class="box"><h3>🔑 Parole da sapere</h3><div class="chips"><span>sbalzo</span><span>smalti</span><span>Cristo in maestà</span><span>mandorla</span><span>magister phaber</span><span>miniatura</span><span>minio</span><span>amanuense</span><span>miniatore</span><span>pergamena</span></div></div>
+<div class="box"><h3>⚡ In 3 righe</h3>I Carolingi riprendono l'arte romana. Capolavoro: l'Altare di Vuolvinio (Milano), in oro e argento a sbalzo. In pittura restano soprattutto le miniature dei manoscritti, fatte nei monasteri su pergamena.</div>
+</div>
+</section></template>
+<script>
+// s: sezione  P=Paleocristiana B=Bizantina L=Longobarda C=Carolingia
+// t: mc (prima opzione = giusta) | vf | fill (a = parole giuste in ordine, x = parole "trappola")
+// e: perché è giusto · r: richiamo alla teoria (pagina) · w: spiegazione per risposte sbagliate specifiche
+const DOMANDE = [
+// ================= PALEOCRISTIANA =================
+{s:'P',t:'mc',q:'Dove pregavano i primi cristiani, quando dovevano tenere nascosta la loro fede?',
+ o:['Nelle domus ecclesiae, case private adattate','Nelle grandi basiliche','Nei battisteri','Nei templi romani'],
+ e:'All\'inizio la fede cristiana doveva restare nascosta, quindi si pregava in abitazioni private chiamate domus ecclesiae, cioè "case dell\'assemblea".',
+ w:{'Nelle grandi basiliche':'Le basiliche arrivano dopo, dal 313, con Costantino.','Nei battisteri':'Anche i battisteri arrivano dopo il 313, e servono per il battesimo.'},
+ r:'pag. 136 · specchietto Architettura paleocristiana: "domus ecclesiae" = case dell\'assemblea.'},
+{s:'P',t:'fill',q:'Le case private dove pregavano i primi cristiani si chiamavano domus ___, cioè "case dell\'___".',
+ a:['ecclesiae','assemblea'],x:['romanae','imperatore'],
+ e:'Domus ecclesiae è latino: domus = casa, ecclesiae = dell\'assemblea (dei fedeli).',
+ r:'pag. 136 · specchietto azzurro.'},
+{s:'P',t:'mc',q:'Da quale anno l\'imperatore Costantino promuove la costruzione dei primi edifici cristiani?',
+ o:['313 d.C.','402 d.C.','527 d.C.','800 d.C.'],
+ e:'Dal 313 d.C. Costantino promuove la costruzione di basiliche e battisteri.',
+ w:{'402 d.C.':'Il 402 è l\'anno in cui Ravenna diventa capitale.','527 d.C.':'Il 527 è l\'anno in cui Giustiniano diventa imperatore.'},
+ r:'pag. 136 · "A partire dal 313 d.C., fu lo stesso imperatore Costantino a promuovere…"'},
+{s:'P',t:'mc',q:'Che cosa significa la parola "catacomba", che viene dal greco?',
+ o:['"Presso le cavità"','"Casa dell\'assemblea"','"Luogo del battesimo"','"Tomba dell\'imperatore"'],
+ e:'Catacomba vuol dire "presso le cavità": all\'inizio indicava una zona precisa fuori dalle mura di Roma usata per le sepolture.',
+ w:{'"Casa dell\'assemblea"':'"Casa dell\'assemblea" è la traduzione di domus ecclesiae.'},
+ r:'pag. 136 · paragrafo Le catacombe.'},
+{s:'P',t:'vf',q:'Le catacombe sono gallerie sotterranee lunghe decine di metri che contengono centinaia di tombe.',a:true,
+ e:'Esatto: sono gallerie sotterranee con celle ricavate nelle pareti dei corridoi, dove si adagiavano i corpi.',
+ r:'pag. 136 · paragrafo Le catacombe.'},
+{s:'P',t:'fill',q:'Dopo la sepoltura, le celle delle catacombe venivano chiuse con ___ o lastre di pietra e a volte decorate con ___ e incisioni.',
+ a:['mattoni','affreschi'],x:['legno','mosaici d\'oro'],
+ e:'Le celle si chiudevano con mattoni o lastre di pietra; a volte erano decorate con affreschi e incisioni.',
+ r:'pag. 136 · Le catacombe.'},
+{s:'P',t:'vf',q:'Nei primi battisteri il battesimo si faceva versando poche gocce d\'acqua sulla testa, come oggi.',a:false,
+ e:'Falso: allora si faceva l\'immersione totale del fedele nell\'acqua, per ricordare il battesimo di Gesù nel fiume Giordano. Per questo al centro c\'era la vasca battesimale.',
+ r:'pag. 136 · I battisteri: "diversamente da quanto accade oggi, l\'immersione totale".'},
+{s:'P',t:'mc',q:'Che cosa c\'era al centro dei battisteri?',
+ o:['La vasca battesimale','L\'altare maggiore','Una tomba','Il quadriportico'],
+ e:'Al centro c\'era la vasca battesimale, dove si immergevano le persone da battezzare.',
+ w:{'Il quadriportico':'Il quadriportico è il cortile davanti alla facciata della basilica.'},
+ r:'pag. 136 · I battisteri.'},
+{s:'P',t:'mc',q:'Battistero di San Giovanni in Laterano (Roma): com\'è fatto?',
+ o:['Vasca circolare al centro di un ambiente a pianta ottagonale','Vasca quadrata in un ambiente rettangolare','Ambiente a croce con cupola d\'oro','Galleria sotterranea con tombe'],
+ e:'Ha una vasca circolare al centro di un ambiente ottagonale (8 lati). La doppia serie di colonne intorno alla vasca fu aggiunta nel V secolo.',
+ r:'pag. 136 · I battisteri, foto 5.'},
+{s:'P',t:'mc',q:'Le basiliche paleocristiane e quelle romane hanno in comune…',
+ o:['La pianta longitudinale','La pianta centrale','La cupola','L\'ingresso sul lato lungo'],
+ e:'Entrambe sono a pianta longitudinale: forma rettangolare che si sviluppa lungo l\'asse della lunghezza.',
+ w:{'La pianta centrale':'La pianta centrale è tipica di battisteri, mausolei e San Vitale.','L\'ingresso sul lato lungo':'L\'ingresso sul lato lungo c\'è solo nella basilica romana.'},
+ r:'pag. 137 · Dalle basiliche romane a quelle cristiane + Glossario.'},
+{s:'P',t:'mc',q:'Dove si trova l\'ingresso nella basilica CRISTIANA?',
+ o:['Sul lato corto, opposto all\'unica abside','Sul lato lungo','Sotto la cupola','Dentro il transetto'],
+ e:'Nella basilica cristiana si entra dal lato corto, di fronte all\'unica abside. Nella basilica romana invece si entrava dal lato lungo.',
+ r:'pag. 137 · confronto basilica romana / cristiana.'},
+{s:'P',t:'vf',q:'Nella basilica romana c\'era una sola abside e l\'aula era divisa in navate.',a:false,
+ e:'Falso, è al contrario. La basilica romana aveva una o due absidi sui lati corti e colonne intorno all\'aula. È la basilica cristiana ad avere una sola abside e le navate.',
+ r:'pag. 137 · elenco puntato delle differenze.'},
+{s:'P',t:'fill',q:'La basilica cristiana ha l\'aula suddivisa in ___, cioè spazi delimitati da file di ___.',
+ a:['navate','colonne'],x:['absidi','capriate'],
+ e:'Le navate sono spazi lunghi separati da file di colonne. Di solito la navata centrale ha accanto due o quattro navate laterali.',
+ r:'pag. 137 · basiliche cristiane + didascalia Navata.'},
+{s:'P',t:'mc',q:'Perché l\'antica Basilica di San Pietro voluta da Costantino oggi la conosciamo solo da disegni e documenti?',
+ o:['Fu demolita nel XVI secolo per costruire quella attuale','Fu distrutta da un terremoto','Non fu mai finita','Fu trasformata in un battistero'],
+ e:'Fu costruita nel IV secolo per volere di Costantino, ma nel XVI secolo fu demolita per costruire la basilica attuale.',
+ r:'pag. 137 · La Basilica di San Pietro a Roma.'},
+{s:'P',t:'mc',q:'Che cos\'è il TRANSETTO?',
+ o:['Un\'area trasversale che chiude le navate e dà alla pianta la forma di croce','Il cortile quadrato davanti alla facciata','La semicupola sopra l\'abside','Una struttura di legno che regge il tetto'],
+ e:'Il transetto è l\'area messa "di traverso" in fondo alle navate: così la pianta diventa a forma di croce.',
+ w:{'Il cortile quadrato davanti alla facciata':'Quello è il quadriportico.','La semicupola sopra l\'abside':'Quello è il catino absidale.','Una struttura di legno che regge il tetto':'Quelle sono le capriate.'},
+ r:'pag. 137 · disegno di San Pietro, didascalia Transetto.'},
+{s:'P',t:'mc',q:'Che cos\'è il QUADRIPORTICO e chi poteva pregarci?',
+ o:['Un cortile quadrato con portici davanti alla facciata, per i fedeli non ancora battezzati','La parte semicircolare dietro l\'altare, per i sacerdoti','Una galleria sotterranea per i morti','Il tetto di legno della navata'],
+ e:'Il quadriportico è un cortile quadrato circondato da portici, davanti alla facciata: lì pregavano i fedeli non ancora battezzati.',
+ r:'pag. 137 · didascalia Quadriportico.'},
+{s:'P',t:'fill',q:'In fondo alla navata centrale c\'è l\'altare maggiore; dietro c\'è l\'___, di forma semicircolare, coperta da una semicupola detta ___ absidale.',
+ a:['abside','catino'],x:['transetto','pulvino'],
+ e:'L\'abside è la parte semicircolare in fondo alla chiesa; la sua semicupola si chiama catino absidale.',
+ r:'pag. 137 · didascalia Abside.'},
+{s:'P',t:'vf',q:'Le capriate sono strutture di legno triangolari che sostengono il tetto.',a:true,
+ e:'Vero: sono triangoli di legno che reggono il tetto della basilica.',
+ r:'pag. 137 · didascalia Capriate.'},
+{s:'P',t:'mc',q:'Perché Costantino costruì la Basilica di San Pietro proprio in quel punto?',
+ o:['Era l\'area di una necropoli dove si pensava fosse sepolto Pietro','Era il centro del Foro romano','C\'era già un battistero','Era vicino al palazzo dell\'imperatore'],
+ e:'Scelse l\'area di una necropoli (cimitero) dove si riteneva fosse sepolto Pietro, l\'apostolo di Gesù.',
+ r:'pag. 137 · box Opere & Storie, La crocifissione di Pietro.'},
+{s:'P',t:'vf',q:'Pietro volle essere crocifisso a testa in giù perché non si riteneva degno di morire come Gesù.',a:true,
+ e:'Vero: fu condannato alla crocifissione a Roma e chiese di essere messo a testa in giù.',
+ r:'pag. 137 · box Opere & Storie.'},
+{s:'P',t:'fill',q:'La pittura fu la prima espressione artistica dei cristiani, sulle pareti delle ___. Usavano un linguaggio fatto di immagini comprensibili solo ai ___.',
+ a:['catacombe','credenti'],x:['basiliche','Romani'],
+ e:'I cristiani dipingevano nelle catacombe immagini che solo chi credeva sapeva capire fino in fondo.',
+ r:'pag. 138 · specchietto verde Pittura paleocristiana.'},
+{s:'P',t:'vf',q:'Le immagini della pittura paleocristiana furono tutte inventate da zero dai cristiani.',a:false,
+ e:'Falso: molte immagini erano di derivazione romana, ma i cristiani diedero loro nuovi significati.',
+ r:'pag. 138 · specchietto verde: "derivazione romana… nuovi significati".'},
+{s:'P',t:'mc',q:'La scultura paleocristiana è soprattutto di tipo…',
+ o:['Funerario: bassorilievi nelle catacombe e sarcofagi','Monumentale: grandi statue nelle piazze','Decorativo: statue nei palazzi imperiali','Religioso: statue d\'oro sugli altari'],
+ e:'È perlopiù funeraria, cioè legata alla sepoltura: ci sono arrivati soprattutto bassorilievi nelle catacombe e sarcofagi.',
+ r:'pag. 139 · specchietto rosa Scultura paleocristiana.'},
+{s:'P',t:'vf',q:'I sarcofagi paleocristiani appartenevano a fedeli benestanti.',a:true,
+ e:'Vero: un sarcofago scolpito costava molto, quindi apparteneva a famiglie benestanti.',
+ r:'pag. 139 · specchietto rosa.'},
+{s:'P',t:'mc',q:'Che cosa hanno in comune pittura e scultura paleocristiana?',
+ o:['Riprendono immagini dell\'arte romana dando loro significati diversi','Usano solo il fondo oro','Rappresentano solo gli imperatori','Sono fatte solo nelle basiliche'],
+ e:'In tutte e due i cristiani recuperano immagini dell\'arte romana ma assegnano loro significati nuovi, cristiani.',
+ r:'pag. 138 specchietto verde + pag. 139 specchietto rosa.'},
+
+// ================= BIZANTINA =================
+{s:'B',t:'mc',q:'In che anno Ravenna diventa capitale dell\'Impero romano d\'Occidente?',
+ o:['402','313','539','824'],
+ e:'Nel 402 la capitale viene spostata a Ravenna: inizia il suo periodo d\'oro.',
+ w:{'313':'Il 313 è l\'anno di Costantino e dei primi edifici cristiani.','539':'Nel 539 i Bizantini riconquistano Ravenna.'},
+ r:'pag. 140 · specchietto Architettura bizantina.'},
+{s:'B',t:'vf',q:'L\'imperatore Onorio spostò la capitale da Roma a Ravenna.',a:false,
+ e:'Falso: la spostò da MILANO a Ravenna. Trappola frequente!',
+ r:'pag. 141 · Il Mausoleo di Galla Placidia, prime righe.'},
+{s:'B',t:'mc',q:'Quale imperatore d\'Oriente lasciò a Ravenna le tracce più importanti?',
+ o:['Giustiniano','Costantino','Carlo Magno','Onorio'],
+ e:'Il libro cita in particolare Giustiniano, imperatore d\'Oriente dal 527.',
+ w:{'Onorio':'Onorio era imperatore d\'OCCIDENTE.','Costantino':'Costantino è legato all\'arte paleocristiana e a San Pietro.'},
+ r:'pag. 140 · specchietto azzurro; pag. 144 · San Vitale.'},
+{s:'B',t:'vf',q:'L\'arte bizantina conquistò anche re germanici come Teodorico.',a:true,
+ e:'Vero: anche re "barbari" come Teodorico apprezzarono l\'arte bizantina.',
+ r:'pag. 140 · specchietto azzurro.'},
+{s:'B',t:'mc',q:'Qual era lo scopo degli artisti dei mosaici di Ravenna?',
+ o:['Mostrare il sacro','Rappresentare con precisione forme e spazio naturali','Fare ritratti realistici','Raccontare battaglie'],
+ e:'Agli artisti non interessava più copiare la natura: volevano mostrare il sacro.',
+ r:'pag. 140 · specchietto verde Pittura bizantina.'},
+{s:'B',t:'fill',q:'Nei mosaici bizantini le figure sono ___ e semplificate, con sguardi ___. La profondità è annullata dal fondo ___, che richiama il divino.',
+ a:['rigide','fissi','oro'],x:['realistiche','espressivi','azzurro'],
+ e:'Figure rigide, volti poco espressivi e sguardi fissi; il fondo oro "cancella" la profondità e fa pensare a Dio.',
+ r:'pag. 140 · specchietto verde.'},
+{s:'B',t:'vf',q:'Nei mosaici bizantini i volti sono molto espressivi e pieni di emozioni.',a:false,
+ e:'Falso: i volti sono poco espressivi e gli sguardi fissi, perché lo scopo è mostrare il sacro, non le emozioni.',
+ r:'pag. 140 · specchietto verde.'},
+{s:'B',t:'mc',q:'Chi era Galla Placidia?',
+ o:['La sorella dell\'imperatore Onorio','La moglie di Giustiniano','La figlia di Costantino','Una regina longobarda'],
+ e:'Era la sorella di Onorio e governò Ravenna dal 423 al 450, favorendone lo sviluppo artistico.',
+ w:{'La moglie di Giustiniano':'La moglie di Giustiniano è Teodora!'},
+ r:'pag. 141 · Il Mausoleo di Galla Placidia.'},
+{s:'B',t:'mc',q:'A che cosa serviva il Mausoleo di Galla Placidia?',
+ o:['Ad accogliere la sua tomba','A celebrare i battesimi','A riunire i fedeli per la messa','A ospitare l\'imperatore'],
+ e:'Galla Placidia lo fece costruire per la sua tomba: un mausoleo è un edificio funebre monumentale.',
+ r:'pag. 141.'},
+{s:'B',t:'mc',q:'Che pianta ha il Mausoleo di Galla Placidia?',
+ o:['A forma di croce','Ottagonale','Longitudinale a tre navate','Circolare'],
+ e:'Ha una pianta a forma di croce.',
+ w:{'Ottagonale':'Ottagonali sono il Battistero del Laterano e San Vitale (due ottagoni).'},
+ r:'pag. 141 · foto 12 (pianta).'},
+{s:'B',t:'vf',q:'L\'esterno del Mausoleo di Galla Placidia è ricoperto di mosaici d\'oro.',a:false,
+ e:'Falso: fuori è semplice, in muratura di mattoni. La ricchezza è tutta DENTRO, nei mosaici.',
+ r:'pag. 141 · "un esterno semplice, in muratura di mattoni".'},
+{s:'B',t:'mc',q:'Le nicchie poco profonde scavate nei muri esterni del Mausoleo disegnano…',
+ o:['Un portico cieco','Un quadriportico','Un deambulatorio','Un transetto'],
+ e:'Le nicchie disegnano un portico cieco su tutti i lati ("cieco" perché non ci si può passare dentro).',
+ r:'pag. 141.'},
+{s:'B',t:'mc',q:'Come sono le finestre del Mausoleo di Galla Placidia?',
+ o:['Rettangolari allungate, sembrano fessure','Grandi e rotonde','Colorate, con vetrate','Non ci sono finestre'],
+ e:'Sono rettangolari e allungate, così strette che sembrano fessure: entra poca luce.',
+ r:'pag. 141.'},
+{s:'B',t:'fill',q:'Sulla cupola del Mausoleo c\'è un cielo ___ con una croce; la parte bassa delle pareti è rivestita di marmo ___.',
+ a:['stellato','giallo'],x:['dorato','bianco'],
+ e:'Cupola con cielo stellato e croce; in basso marmo giallo che, insieme ai mosaici, riflette la poca luce delle finestre.',
+ r:'pag. 141 · Una decorazione stupefacente.'},
+{s:'B',t:'mc',q:'Come si sente il visitatore che entra nel Mausoleo di Galla Placidia?',
+ o:['Immerso in uno spazio irreale, ultraterreno','In una casa normale','In un luogo buio e spaventoso','In una piazza aperta'],
+ e:'Mosaici e marmo giallo riflettono la luce: sembra di essere in uno spazio irreale, fuori dal mondo.',
+ r:'pag. 141 · ultime righe.'},
+{s:'B',t:'mc',q:'Quali due elementi tipici dell\'architettura bizantina si trovano in San Vitale?',
+ o:['Pianta centrale e cupola','Pianta longitudinale e capriate','Quadriportico e transetto','Catacombe e affreschi'],
+ e:'San Vitale ha la pianta centrale e la cupola, tipiche dell\'architettura bizantina.',
+ w:{'Pianta longitudinale e capriate':'Questi sono elementi delle basiliche paleocristiane, come San Pietro.'},
+ r:'pag. 144 · La Chiesa di San Vitale.'},
+{s:'B',t:'mc',q:'Attorno a che cosa è organizzata la pianta di San Vitale?',
+ o:['Due ottagoni concentrici','Una croce','Un rettangolo con tre navate','Un cerchio solo'],
+ e:'Due ottagoni uno dentro l\'altro: quello esterno è il muro, quello interno delimita lo spazio centrale che sale fino alla cupola.',
+ r:'pag. 144.'},
+{s:'B',t:'vf',q:'Il deambulatorio è un ambiente di passaggio che fiancheggia la sala principale.',a:true,
+ e:'Vero: in San Vitale lo spazio centrale è circondato da piccole absidi e da un deambulatorio.',
+ r:'pag. 144 · Glossario.'},
+{s:'B',t:'mc',q:'Che cos\'è il PULVINO?',
+ o:['La parte tra il capitello e l\'arco','La vasca del battesimo','La semicupola dell\'abside','Il cortile davanti alla chiesa'],
+ e:'Il pulvino sta sopra il capitello, tra il capitello e l\'arco: è un elemento tipicamente bizantino.',
+ r:'pag. 144.'},
+{s:'B',t:'fill',q:'In San Vitale il capitello ha la forma di un tronco di ___ rovesciata; nella parte bassa il marmo sembra un ___ traforato e leggero.',
+ a:['piramide','pizzo'],x:['cupola','mosaico'],
+ e:'Capitello a tronco di piramide rovesciata, con il marmo lavorato così finemente da sembrare un pizzo.',
+ r:'pag. 144.'},
+{s:'B',t:'vf',q:'Gli edifici a pianta centrale si sviluppano in modo simmetrico attorno a un asse centrale: per esempio battisteri e mausolei.',a:true,
+ e:'Vero: è la definizione del glossario. Il contrario è la pianta longitudinale delle basiliche.',
+ r:'pag. 144 · Glossario: pianta centrale.'},
+{s:'B',t:'mc',q:'Dove si trovano i mosaici di Giustiniano e Teodora?',
+ o:['Sulle due pareti dell\'abside di San Vitale','Sulla cupola del Mausoleo di Galla Placidia','Nelle catacombe di Roma','Sulla facciata di San Pietro'],
+ e:'Occupano le due pareti dell\'abside di San Vitale: a sinistra il corteo di Giustiniano, a destra quello di Teodora.',
+ r:'pag. 146 · I mosaici di San Vitale.'},
+{s:'B',t:'mc',q:'Chi era Teodora?',
+ o:['La moglie di Giustiniano','La sorella di Onorio','Una santa martire','La regina dei Longobardi'],
+ e:'Teodora era l\'imperatrice, moglie di Giustiniano.',
+ w:{'La sorella di Onorio':'La sorella di Onorio è Galla Placidia.'},
+ r:'pag. 146.'},
+{s:'B',t:'mc',q:'Che cosa fanno Giustiniano e Teodora nei mosaici?',
+ o:['Portano doni all\'altare','Combattono una battaglia','Battezzano dei fedeli','Siedono sul trono'],
+ e:'Sono al centro delle scene, riccamente vestiti, e portano doni all\'altare.',
+ r:'pag. 146.'},
+{s:'B',t:'mc',q:'Chi c\'è accanto a Giustiniano, riconoscibile da una scritta?',
+ o:['Il vescovo Massimiano','L\'imperatore Onorio','Il re Teodorico','Il monaco Vuolvinio'],
+ e:'È il vescovo Massimiano, vestito con eleganza: sopra di lui c\'è la scritta MAXIMIANUS.',
+ r:'pag. 147 · prime righe + box Che cosa?'},
+{s:'B',t:'fill',q:'Giustiniano e Teodora hanno la corona e l\'aureola: simboli del potere ___ e di quello ___.',
+ a:['terreno','spirituale'],x:['militare','economico'],
+ e:'Corona = potere terreno (sono sovrani). Aureola = potere spirituale: l\'imperatore pensava che il suo potere venisse direttamente da Dio.',
+ r:'pag. 147.'},
+{s:'B',t:'vf',q:'Giustiniano e Teodora hanno l\'aureola perché erano santi.',a:false,
+ e:'Falso: non sono mai stati santi. L\'aureola indica che l\'imperatore credeva che il suo potere venisse direttamente da Dio.',
+ r:'pag. 147 · "anche se sappiamo che non sono mai stati santi".'},
+{s:'B',t:'mc',q:'Nel corteo di Teodora, che cosa si vede accanto a lei?',
+ o:['Una fontana con l\'acqua che zampilla e una porta coperta da una tenda','Un gruppo di soldati con lo scudo','Il vescovo Massimiano','Un cielo stellato'],
+ e:'Teodora è in una nicchia; alla sua destra ci sono una fontana che zampilla e una porta parzialmente coperta da una tenda.',
+ w:{'Un gruppo di soldati con lo scudo':'I soldati sono nel corteo di Giustiniano.'},
+ r:'pag. 146 · ultime righe.'},
+{s:'B',t:'vf',q:'Nei mosaici di San Vitale gli artisti volevano rappresentare la realtà in modo fedele.',a:false,
+ e:'Falso: le figure sono schiacciate, ammucchiate e con sguardi fissi. Agli artisti interessava mostrare il potere e la fede cristiana, non la realtà.',
+ r:'pag. 147 · ultime righe del testo.'},
+{s:'B',t:'mc',q:'Nei mosaici di San Vitale, come viene resa la profondità?',
+ o:['Quasi per niente: il fondo oro la appiattisce','Con una prospettiva perfetta','Con paesaggi lontani e sfumati','Con ombre molto realistiche'],
+ e:'La profondità è suggerita solo dal sovrapporsi delle figure, ma è annullata dal fondo oro; le figure sembrano ammucchiate e schiacciate.',
+ r:'pag. 146.'},
+
+// ================= LONGOBARDA =================
+{s:'L',t:'mc',q:'Perché i popoli barbari come i Longobardi realizzavano soprattutto oggetti di piccole dimensioni?',
+ o:['Erano popoli nomadi: gli oggetti dovevano essere facili da trasportare','Non sapevano lavorare la pietra','Avevano poco oro','Li vendevano ai Romani'],
+ e:'Erano popoli nomadi (si spostavano spesso), quindi servivano oggetti piccoli, adatti al trasporto.',
+ r:'pag. 148 · specchietto rosa Oreficeria e scultura longobarda.'},
+{s:'L',t:'fill',q:'L\'oreficeria longobarda è caratterizzata da decorazioni ___ e colori ___.',
+ a:['geometriche','vivaci'],x:['realistiche','spenti'],
+ e:'Decorazioni geometriche e colori vivaci: sono le due caratteristiche da ricordare.',
+ r:'pag. 148 · specchietto rosa.'},
+{s:'L',t:'vf',q:'Le caratteristiche dell\'oreficeria longobarda si ritrovano anche nelle sculture che decorano le architetture di quel periodo.',a:true,
+ e:'Vero: decorazioni geometriche e colori vivaci si trovano anche nelle sculture che abbelliscono gli edifici dell\'Italia longobarda.',
+ r:'pag. 148 · specchietto rosa, ultime righe.'},
+{s:'L',t:'mc',q:'Che cosa significa "oreficeria"?',
+ o:['L\'arte di lavorare metalli preziosi come oro e argento','L\'arte di dipingere sui muri','L\'arte di costruire chiese','L\'arte di copiare i libri'],
+ e:'L\'oreficeria è la lavorazione di oro, argento e pietre preziose per fare gioielli e oggetti preziosi.',
+ r:'pag. 148 e 152 · specchietti rosa.'},
+{s:'L',t:'mc',q:'L\'architettura longobarda nasce da un intreccio di quali tradizioni?',
+ o:['Barbara, classica e bizantina','Solo barbara','Romana e greca','Egizia e bizantina'],
+ e:'La tradizione dei popoli barbari si unisce a quella classica (natura e proporzione) e a quella bizantina (il sacro).',
+ r:'pag. 150 · specchietto azzurro Architettura longobarda.'},
+{s:'L',t:'mc',q:'La tradizione CLASSICA era attenta soprattutto a…',
+ o:['Natura e proporzione','Rappresentazione del sacro','Colori vivaci','Oggetti piccoli e trasportabili'],
+ e:'Classica = attenta alla natura e alla proporzione. Il sacro è invece la "specialità" della tradizione bizantina.',
+ r:'pag. 150 · specchietto azzurro.'},
+{s:'L',t:'fill',q:'Nell\'architettura longobarda la tradizione classica è attenta alla natura e alla ___, quella bizantina alla rappresentazione del ___.',
+ a:['proporzione','sacro'],x:['velocità','potere'],
+ e:'Classica → natura e proporzione. Bizantina → rappresentazione del sacro.',
+ r:'pag. 150 · specchietto azzurro.'},
+{s:'L',t:'vf',q:'Le architetture longobarde si trovano solo in Friuli-Venezia Giulia.',a:false,
+ e:'Falso: sono in tutta la penisola, specialmente in Friuli-Venezia Giulia, Lombardia, Umbria, Campania e Puglia.',
+ r:'pag. 150 · specchietto azzurro.'},
+
+// ================= CAROLINGIA =================
+{s:'C',t:'fill',q:'La scultura e l\'oreficeria carolingia ripresero temi e tecniche dell\'arte ___.',
+ a:['romana'],x:['longobarda','egizia'],
+ e:'L\'arte carolingia guarda all\'arte romana e ne riprende temi e tecniche.',
+ r:'pag. 152 · specchietto rosa Oreficeria carolingia.'},
+{s:'C',t:'mc',q:'Che cosa realizzavano gli orafi carolingi?',
+ o:['Prima armi e ornamenti per aristocratici, poi rivestimenti in bassorilievo che narrano storie sacre','Solo monete','Solo statue a grandezza naturale','Mosaici per le cupole'],
+ e:'All\'inizio armi, ornamenti e oggetti per gli aristocratici; poi rivestimenti in bassorilievo per raccontare storie di santi o dei testi sacri.',
+ r:'pag. 152 · specchietto rosa.'},
+{s:'C',t:'mc',q:'Dove si trova l\'Altare di Vuolvinio?',
+ o:['Nella Basilica di Sant\'Ambrogio a Milano','Nella Chiesa di San Vitale a Ravenna','Nella Basilica di San Pietro a Roma','Nel Museo di Parigi'],
+ e:'Si trova ancora nella sua posizione originaria: la Basilica di Sant\'Ambrogio a Milano.',
+ r:'pag. 152 · L\'Altare di Vuolvinio.'},
+{s:'C',t:'vf',q:'L\'Altare di Vuolvinio è giunto intatto fino a noi e si trova ancora nel suo posto originario.',a:true,
+ e:'Vero: è la più importante opera di oreficeria carolingia arrivata intatta, ancora nella Basilica di Sant\'Ambrogio.',
+ r:'pag. 152.'},
+{s:'C',t:'mc',q:'Chi commissionò l\'Altare a Vuolvinio, e per quale motivo?',
+ o:['L\'arcivescovo Angilberto II, per dare sepoltura a sant\'Ambrogio e ai santi Gervasio e Protasio','Carlo Magno, per la sua incoronazione','Giustiniano, per San Vitale','Il re Teodorico, per il suo palazzo'],
+ e:'Lo commissionò l\'arcivescovo di Milano Angilberto II, a metà del IX secolo, per la sepoltura di sant\'Ambrogio (protettore della città) e dei santi Gervasio e Protasio.',
+ r:'pag. 152.'},
+{s:'C',t:'fill',q:'L\'altare è una cassa di ___ rivestita di lamine d\'oro e d\'argento lavorate a ___, con smalti colorati e pietre preziose.',
+ a:['legno','sbalzo'],x:['marmo','mosaico'],
+ e:'Dentro è di legno; fuori ha lamine d\'oro e d\'argento lavorate a sbalzo (il metallo viene battuto per far uscire le figure in rilievo).',
+ r:'pag. 152.'},
+{s:'C',t:'mc',q:'Che cosa c\'è al centro del lato dell\'altare rivolto verso i fedeli?',
+ o:['Una grande croce con Cristo in maestà in una mandorla','La vita di sant\'Ambrogio','Il ritratto di Vuolvinio','Giustiniano e Teodora'],
+ e:'Al centro c\'è una grande croce che racchiude in una mandorla Cristo in maestà; attorno, i dodici apostoli a gruppi di tre. Ai lati, storie della vita di Cristo.',
+ w:{'La vita di sant\'Ambrogio':'La vita di sant\'Ambrogio è sul lato POSTERIORE.'},
+ r:'pag. 152.'},
+{s:'C',t:'vf',q:'Sul lato posteriore dell\'altare sono narrati episodi della vita di sant\'Ambrogio.',a:true,
+ e:'Vero: davanti (verso i fedeli) storie di Cristo, dietro la vita di sant\'Ambrogio.',
+ r:'pag. 152.'},
+{s:'C',t:'vf',q:'Vuolvinio si firmò "magister phaber" (maestro artefice): è uno dei rarissimi casi medievali in cui l\'artista firma la sua opera.',a:true,
+ e:'Vero: nel Medioevo quasi tutti gli artisti restavano anonimi.',
+ r:'pag. 152 · didascalia foto 32.'},
+{s:'C',t:'mc',q:'Nell\'Altare di Vuolvinio, quale elemento è di tradizione BARBARICA?',
+ o:['Le pietre preziose incastonate nel metallo','La proporzione dei personaggi','La rigidità solenne di Cristo','Le posizioni naturali delle figure'],
+ e:'Barbarico = pietre incastonate nel metallo prezioso. Classico = proporzione e posizioni naturali. Bizantino = rigidità solenne di Cristo.',
+ r:'pag. 152 · ultimo paragrafo.'},
+{s:'C',t:'mc',q:'Nell\'Altare di Vuolvinio, quale elemento è di tradizione BIZANTINA?',
+ o:['La solenne rigidità della figura di Cristo','Le pietre incastonate','Le posizioni naturali dei personaggi','La cassa di legno'],
+ e:'Come nei mosaici di Ravenna, le figure sacre sono rigide e solenni: è un elemento bizantino.',
+ r:'pag. 152 · ultimo paragrafo.'},
+{s:'C',t:'vf',q:'Di epoca carolingia ci sono arrivate moltissime pitture murali.',a:false,
+ e:'Falso: sono rimaste poche pitture murali, mentre ci sono arrivati numerosi libri manoscritti con miniature.',
+ r:'pag. 153 · specchietto verde Pittura carolingia.'},
+{s:'C',t:'fill',q:'Le illustrazioni dei libri manoscritti si chiamano ___. La parola viene da "minio", un inchiostro ___.',
+ a:['miniature','rosso'],x:['affreschi','blu'],
+ e:'"Miniatura" non vuol dire "cosa piccola": viene dal minio, inchiostro rosso usato per decorare le pagine.',
+ r:'pag. 153 · specchietto verde.'},
+{s:'C',t:'mc',q:'Dove venivano realizzati i manoscritti miniati?',
+ o:['Nei monasteri','Nei palazzi degli imperatori','Nelle catacombe','Nelle botteghe degli orafi'],
+ e:'Nei monasteri, comunità religiose sorte in Europa fin dal IV secolo.',
+ r:'pag. 153 · specchietto verde.'},
+{s:'C',t:'mc',q:'Chi erano gli AMANUENSI?',
+ o:['Monaci che copiavano a mano i testi','Monaci che facevano le illustrazioni','Orafi che lavoravano l\'oro','Architetti delle chiese'],
+ e:'Gli amanuensi copiavano a mano i testi (soprattutto sacri). Le illustrazioni le facevano i miniatori.',
+ w:{'Monaci che facevano le illustrazioni':'Quelli sono i miniatori.'},
+ r:'pag. 153 · specchietto verde.'},
+{s:'C',t:'fill',q:'Nei monasteri gli ___ copiavano a mano i testi e i ___ realizzavano le illustrazioni.',
+ a:['amanuensi','miniatori'],x:['orafi','vescovi'],
+ e:'Amanuensi = copiano. Miniatori = illustrano.',
+ r:'pag. 153 · specchietto verde.'},
+{s:'C',t:'mc',q:'Su che cosa erano scritti i manoscritti carolingi?',
+ o:['Su pergamena, ottenuta da pelli di animali','Su carta di riso','Su tavolette di legno','Su lastre di marmo'],
+ e:'Su fogli di pergamena, cioè pelli di animali trattate in modo speciale.',
+ r:'pag. 153 · specchietto verde.'},
+
+// ================= MISTE / COLLEGAMENTI =================
+{s:'B',t:'mc',q:'Collegamento! Quale di questi edifici NON ha la pianta centrale?',
+ o:['La Basilica di San Pietro','La Chiesa di San Vitale','Il Battistero di San Giovanni in Laterano','Un mausoleo'],
+ e:'San Pietro è una basilica a pianta longitudinale. Battisteri, mausolei e San Vitale sono esempi di pianta centrale.',
+ r:'pag. 137 (pianta longitudinale) e pag. 144 (Glossario: pianta centrale).'},
+{s:'P',t:'mc',q:'Collegamento! Metti in ordine di tempo:',
+ o:['Arte paleocristiana → bizantina a Ravenna → longobarda → carolingia','Bizantina → paleocristiana → carolingia → longobarda','Longobarda → paleocristiana → bizantina → carolingia','Carolingia → longobarda → bizantina → paleocristiana'],
+ e:'Ordine: Paleocristiana (dal 313), Bizantina a Ravenna (dal 402, poi Giustiniano), Longobarda, Carolingia (IX sec., Altare di Vuolvinio). Trucco: P-B-L-C.',
+ r:'Linea del tempo dell\'unità 5.'}
+];
+
+// Collegamento domanda -> riquadri della mappa (stesso ordine di DOMANDE)
+// id: <sezione>-<ramo>-<riquadro> | <sezione>-x<n> (box in fondo) | tl (linea del tempo)
+// h: parole da evidenziare nel riquadro (per i "completa" si usano le risposte)
+const LINKS = [
+// PALEOCRISTIANA
+{m:['pal-0-0'],h:['domus ecclesiae']},
+{m:['pal-0-0']},
+{m:['pal-0-2'],h:['313','basiliche','battisteri']},
+{m:['pal-0-1'],h:['presso le cavità']},
+{m:['pal-0-1'],h:['gallerie sotterranee','centinaia di tombe']},
+{m:['pal-0-1']},
+{m:['pal-0-3'],h:['immersione totale']},
+{m:['pal-0-3'],h:['vasca battesimale']},
+{m:['pal-0-3'],h:['vasca circolare','ottagonale']},
+{m:['pal-0-4'],h:['pianta longitudinale']},
+{m:['pal-x0'],h:['corto','opposto all\'abside']},
+{m:['pal-x0'],h:['una o due','una sola','navate']},
+{m:['pal-x0','pal-x1'],h:['navate','file di colonne','Navata']},
+{m:['pal-0-5'],h:['demolita nel XVI sec.','disegni e documenti']},
+{m:['pal-x1'],h:['Transetto','a croce']},
+{m:['pal-x1'],h:['Quadriportico','non battezzati']},
+{m:['pal-x1']},
+{m:['pal-x1'],h:['Capriate','legno triangolari']},
+{m:['pal-0-5'],h:['necropoli']},
+{m:['pal-0-5'],h:['a testa in giù']},
+{m:['pal-1-0','pal-1-1']},
+{m:['pal-1-2'],h:['derivazione romana','nuovi significati']},
+{m:['pal-2-0','pal-2-1'],h:['funeraria','bassorilievi','sarcofagi']},
+{m:['pal-2-1'],h:['benestanti']},
+{m:['pal-1-2','pal-2-2'],h:['nuovi significati','significati differenti','immagini dell\'arte romana','derivazione romana']},
+// BIZANTINA
+{m:['biz-0-0'],h:['402']},
+{m:['biz-0-1'],h:['Milano']},
+{m:['biz-0-0'],h:['Giustiniano']},
+{m:['biz-0-0'],h:['Teodorico']},
+{m:['biz-1-0'],h:['mostrare il sacro']},
+{m:['biz-1-0']},
+{m:['biz-1-0'],h:['volti poco espressivi','sguardi fissi']},
+{m:['biz-0-1'],h:['sorella di Onorio']},
+{m:['biz-0-1'],h:['sua tomba']},
+{m:['biz-0-1'],h:['a croce']},
+{m:['biz-0-1','biz-1-1'],h:['semplice','mattoni','mosaico']},
+{m:['biz-0-1'],h:['portico cieco']},
+{m:['biz-0-1'],h:['fessure']},
+{m:['biz-1-1']},
+{m:['biz-1-1'],h:['spazio irreale, ultraterreno']},
+{m:['biz-0-2'],h:['pianta centrale','cupola']},
+{m:['biz-0-2'],h:['due ottagoni concentrici']},
+{m:['biz-0-2'],h:['deambulatorio']},
+{m:['biz-0-2'],h:['pulvino']},
+{m:['biz-0-2']},
+{m:['biz-x0'],h:['simmetrica attorno a un centro','battisteri, mausolei']},
+{m:['biz-1-2'],h:['abside']},
+{m:['biz-1-2'],h:['Teodora']},
+{m:['biz-1-2'],h:['doni all\'altare']},
+{m:['biz-1-2'],h:['vescovo Massimiano','MAXIMIANUS']},
+{m:['biz-1-2']},
+{m:['biz-1-2'],h:['aureola','erano santi']},
+{m:['biz-1-2'],h:['fontana','porta con tenda']},
+{m:['biz-1-2'],h:['potere e fede','non la realtà']},
+{m:['biz-1-0','biz-1-2'],h:['fondo oro','ammucchiate e schiacciate']},
+// LONGOBARDA
+{m:['lon-0-0'],h:['nomadi','piccole dimensioni','trasporto']},
+{m:['lon-0-1']},
+{m:['lon-0-2'],h:['sculture che decorano le architetture']},
+{m:['lon-0-1'],h:['oro, argento e pietre preziose']},
+{m:['lon-1-0'],h:['barbara','classica','bizantina']},
+{m:['lon-1-0'],h:['natura e proporzione']},
+{m:['lon-1-0']},
+{m:['lon-1-1'],h:['tutta la penisola']},
+// CAROLINGIA
+{m:['car-0-0']},
+{m:['car-0-0'],h:['armi, ornamenti','rivestimenti in bassorilievo']},
+{m:['car-0-1'],h:['Basilica di Sant\'Ambrogio, Milano']},
+{m:['car-0-1'],h:['intatta']},
+{m:['car-0-1'],h:['Angilberto II','sant\'Ambrogio']},
+{m:['car-0-2']},
+{m:['car-0-2'],h:['Cristo in maestà','mandorla']},
+{m:['car-0-2'],h:['lato posteriore','vita di sant\'Ambrogio']},
+{m:['car-0-2'],h:['magister phaber']},
+{m:['car-0-3'],h:['barbarico','pietre incastonate nel metallo']},
+{m:['car-0-3'],h:['bizantino','rigidità solenne']},
+{m:['car-1-0'],h:['poche','tanti libri manoscritti']},
+{m:['car-1-0','car-1-1']},
+{m:['car-1-2'],h:['monasteri']},
+{m:['car-1-2'],h:['amanuensi']},
+{m:['car-1-2']},
+{m:['car-1-3'],h:['pergamena']},
+// COLLEGAMENTI
+{m:['biz-x0'],h:['basiliche (San Pietro)','battisteri, mausolei, San Vitale']},
+{m:['tl'],h:['Arte paleocristiana','Arte bizantina a Ravenna','Arte longobarda','Arte carolingia']}
+];
+
+/*V2*/
+const SEZ={P:{n:'Paleocristiana',i:'✝️',c:'var(--P)',pg:'pag. 136–139'},B:{n:'Bizantina a Ravenna',i:'✨',c:'var(--B)',pg:'pag. 140–147'},L:{n:'Longobarda',i:'⚔️',c:'var(--L)',pg:'pag. 148–150'},C:{n:'Carolingia',i:'👑',c:'var(--C)',pg:'pag. 152–153'}};
+const TIPI={mc:'Scelta multipla',vf:'Vero o falso',fill:'Completa la frase'};
+const PRAISE=['Giusto! 🎉','Esatto! 💪','Perfetto! ⭐','Bravissimo! 🙌','Sì! Ottimo! 🚀'];
+const OOPS=['Non proprio… 🤔','Quasi! Rileggi qui sotto 👇','Ops! Niente paura 🙂'];
+const $=s=>document.querySelector(s);
+const app=$('#app');
+let S={sel:new Set(['P','B','L','C']),voice:false,pause:true,list:[],i:0,score:0,streak:0,best:0,log:[]};
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function say(t){try{if(!('speechSynthesis' in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/___/g,'…'));u.lang='it-IT';u.rate=.95;speechSynthesis.speak(u)}catch(e){}}
+
+
+if(LINKS.length!==DOMANDE.length)console.error('LINKS mismatch',LINKS.length,DOMANDE.length);
+DOMANDE.forEach((d,i)=>{d.m=LINKS[i].m;d.h=LINKS[i].h||(d.t==='fill'?d.a:[])});
+const SECID={P:'pal',B:'biz',L:'lon',C:'car'};
+const MAP=document.getElementById('mapsrc').content;
+// assegna gli id ai riquadri
+MAP.querySelectorAll('section').forEach(sec=>{
+  if(sec.id==='tl'){const t=sec.querySelector('.tl');t.dataset.id='tl';return}
+  sec.querySelectorAll('.branch').forEach((br,bi)=>br.querySelectorAll('.leaf').forEach((lf,li)=>lf.dataset.id=sec.id+'-'+bi+'-'+li));
+  sec.querySelectorAll('.recap .box').forEach((bx,xi)=>bx.dataset.id=sec.id+'-x'+xi);
+});
+function highlight(root,words){
+  (words||[]).forEach(w=>{
+    const lw=w.toLowerCase();
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;const todo=[];
+    while(n=walker.nextNode()){if(n.parentNode.closest&&n.parentNode.closest('.hit'))continue;const ix=n.nodeValue.toLowerCase().indexOf(lw);if(ix>=0)todo.push([n,ix])}
+    todo.forEach(([n,ix])=>{const r=n.splitText(ix);r.splitText(w.length);const s=document.createElement('span');s.className='hit';r.parentNode.replaceChild(s,r);s.appendChild(r)});
+  });
+}
+function mapCard(id,words){
+  const el=MAP.querySelector('[data-id="'+id+'"]');if(!el)return'';
+  const sec=el.closest('section');const root=sec.querySelector('.root h2');
+  const secName=root?root.textContent:'⏳ LINEA DEL TEMPO';
+  const wrap=document.createElement('div');wrap.className='mp';
+  let crumb=secName;
+  if(el.classList.contains('leaf')){
+    const br=el.closest('.branch');const head=br.querySelector('.head').childNodes[0].textContent.trim();
+    crumb+=' › '+head;
+    const b=document.createElement('div');b.className='branch '+[...br.classList].filter(c=>c.length===1).join(' ');
+    const lv=document.createElement('div');lv.className='leaves';lv.appendChild(el.cloneNode(true));b.appendChild(lv);wrap.appendChild(b);
+  }else wrap.appendChild(el.cloneNode(true));
+  highlight(wrap,words);
+  return '<div class="crumb">📍 '+esc(crumb)+'</div>'+wrap.outerHTML;
+}
+function mapHTML(d){
+  return '<div class="mapfb"><div class="mf-t">🗺️ Ecco dove lo trovi nella mappa</div>'+d.m.map(id=>mapCard(id,d.h)).join('')+'<div class="hint">In arancione la parte che serviva per rispondere.</div></div>';
+}
+function review(){
+  const secs=[...new Set(S.list.map(d=>SECID[d.s]))];
+  const showTl=S.list.some(d=>d.m.includes('tl'))||secs.length===4;
+  const stats={};S.log.forEach(x=>x.d.m.forEach(id=>{stats[id]=stats[id]||{ok:0,ko:0};stats[id][x.ok?'ok':'ko']++}));
+  const box=document.createElement('div');box.className='mp';
+  const order=(showTl?['tl']:[]).concat(['pal','biz','lon','car'].filter(s=>secs.includes(s)));
+  order.forEach(id=>{const s=MAP.getElementById?MAP.getElementById(id):MAP.querySelector('#'+id);const c=s.cloneNode(true);
+    if(id==='tl'){c.insertAdjacentHTML('afterbegin','<div class="root"><h2>⏳ LINEA DEL TEMPO</h2></div><div class="stem"></div>')}
+    box.appendChild(c)});
+  let nko=0;
+  box.querySelectorAll('[data-id]').forEach(el=>{const st=stats[el.dataset.id];if(!st)return;
+    el.classList.add(st.ko?'r-ko':'r-ok');if(st.ko)nko++;
+    el.insertAdjacentHTML('afterbegin','<div class="badge">'+(st.ok?'✅ '+st.ok+' ':'')+(st.ko?'❌ '+st.ko:'')+'</div>')});
+  const names={tl:'⏳ Tempo',pal:'✝️ Paleocristiana',biz:'✨ Bizantina',lon:'⚔️ Longobarda',car:'👑 Carolingia'};
+  app.innerHTML=`<div class="rvhead"><h1 style="margin:0">🗺️ Ripassa tutta la mappa</h1>
+  <div class="muted" style="font-size:15px">${nko?`Guarda con più attenzione i <b>${nko}</b> riquadri con il bordo rosso.`:'Nessun errore! Ripassa lo stesso tutta la mappa.'} Poi rifai il test.</div>
+  <div class="leg2"><span style="border-color:var(--ko)">❌ qui hai sbagliato</span><span style="border-color:var(--ok)">✅ tutto giusto</span></div>
+  <div class="secnav">${order.map(id=>`<a href="#" data-go="${id}">${names[id]}</a>`).join('')}</div></div>
+  <div id="rvmap"></div>
+  <div class="next" style="justify-content:center;flex-wrap:wrap;margin-top:20px"><button class="btn" id="again">🔁 Ho ripassato: rifai il test</button><button class="btn ghost" id="hm">🏠 Inizio</button></div>`;
+  box.querySelectorAll('section').forEach(s=>{s.dataset.sec=s.id;s.removeAttribute('id')});
+  $('#rvmap').appendChild(box);
+  app.querySelectorAll('[data-go]').forEach(a=>a.onclick=e=>{e.preventDefault();const t=box.querySelector('[data-sec="'+a.dataset.go+'"]');if(t)window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY-150,behavior:'smooth'})});
+  $('#again').onclick=()=>start(DOMANDE.filter(d=>(S.lastSel||['P','B','L','C']).includes(d.s)));
+  $('#hm').onclick=home;window.scrollTo({top:0});
+}
+
+function home(){
+  const cnt=k=>DOMANDE.filter(d=>d.s===k).length;
+  app.innerHTML=`<h1>🏛️ Verifica di Arte – Alto Medioevo <span style="font-size:16px;background:var(--acc);color:#fff;border-radius:8px;padding:2px 8px;vertical-align:middle">v2</span></h1>
+  <p class="muted">Una domanda alla volta. Dopo ogni risposta scopri <b>perché</b> è giusta o sbagliata, e il pezzo di <b>mappa</b> dove si trova la risposta.</p><p class="muted" style="font-size:16px">Come funziona: <b>1.</b> fai il test → <b>2.</b> dopo ogni risposta guardi la mappa → <b>3.</b> alla fine ripassi tutta la mappa → <b>4.</b> rifai il test.</p>
+  <p style="font-weight:600;margin-bottom:0">1. Scegli gli argomenti:</p>
+  <div class="cards">${Object.entries(SEZ).map(([k,v])=>`<button class="card ${S.sel.has(k)?'on':''}" data-k="${k}"><b>${v.i} ${v.n}</b><span>${v.pg} · ${cnt(k)} domande</span></button>`).join('')}</div>
+  <p style="font-weight:600;margin-bottom:0">2. Opzioni:</p>
+  <div class="opts">
+    <label><input type="checkbox" id="vo" ${S.voice?'checked':''}> 🔊 Leggi le domande ad alta voce</label>
+    <label><input type="checkbox" id="pa" ${S.pause?'checked':''}> ☕ Pausa ogni 10 domande</label>
+  </div>
+  <button class="btn" id="go">Inizia (${DOMANDE.filter(d=>S.sel.has(d.s)).length} domande) ➜</button>
+  <p class="hint">Consiglio: fai un argomento alla volta, poi alla fine prova "tutti insieme". Tasti: 1-2-3-4 per rispondere, Invio per andare avanti.</p>`;
+  app.querySelectorAll('.card').forEach(b=>b.onclick=()=>{const k=b.dataset.k;S.sel.has(k)?S.sel.delete(k):S.sel.add(k);if(!S.sel.size)S.sel.add(k);home()});
+  $('#vo').onchange=e=>S.voice=e.target.checked;
+  $('#pa').onchange=e=>S.pause=e.target.checked;
+  $('#go').onclick=()=>{S.lastSel=[...S.sel];start(DOMANDE.filter(d=>S.sel.has(d.s)))};
+}
+function start(list){S.list=shuf(list);S.i=0;S.score=0;S.streak=0;S.best=0;S.log=[];ask()}
+
+function header(d){
+  const n=S.list.length,p=Math.round(S.i/n*100);
+  return `<div class="top"><span>${S.i+1}/${n}</span><div class="bar"><i style="width:${p}%"></i></div><span class="streak">${S.streak>=2?'🔥'+S.streak:''}</span><span>⭐ ${S.score}</span></div>
+  <div><span class="tag" style="background:${SEZ[d.s].c}">${SEZ[d.s].i} ${SEZ[d.s].n}</span><span class="type">${TIPI[d.t]}</span></div>`;
+}
+let done=false;
+function ask(){
+  done=false;
+  const d=S.list[S.i];
+  let body='';
+  if(d.t==='mc'){
+    d._o=shuf(d.o);
+    body=`<div class="ans">${d._o.map((o,i)=>`<button data-i="${i}"><span class="k">${i+1}</span><span>${esc(o)}</span></button>`).join('')}</div>`;
+  }else if(d.t==='vf'){
+    body=`<div class="ans vf"><button data-v="1">✅ VERO</button><button data-v="0">❌ FALSO</button></div>`;
+  }else{
+    const parts=d.q.split('___');
+    d._f=Array(d.a.length).fill(null);
+    let html='';parts.forEach((p,i)=>{html+=esc(p);if(i<parts.length-1)html+=`<span class="blank empty" data-b="${i}">____</span>`});
+    d._bank=shuf(d.a.concat(d.x||[]));
+    body=`<div class="sent">${html}</div><p class="hint" style="margin-top:-6px">Tocca una parola per inserirla nello spazio giallo. Tocca uno spazio per svuotarlo.</p>
+    <div class="bank">${d._bank.map((w,i)=>`<button class="chip" data-w="${i}">${esc(w)}</button>`).join('')}</div>
+    <div class="next" style="justify-content:flex-start"><button class="btn" id="chk" disabled>Controlla ✔</button></div>`;
+  }
+  const qtext=d.t==='fill'?'Completa la frase con le parole giuste.':esc(d.q);
+  app.innerHTML=header(d)+`<div class="q">${qtext}<button class="speak" title="Leggi ad alta voce" id="sp">🔊</button></div>${body}<div id="fb"></div>`;
+  $('#sp').onclick=()=>say(d.q+(d.t==='mc'?'. '+d._o.join('. '):''));
+  if(S.voice)say(d.q);
+  if(d.t==='mc')app.querySelectorAll('.ans button').forEach(b=>b.onclick=()=>answerMC(d,+b.dataset.i));
+  if(d.t==='vf')app.querySelectorAll('.ans button').forEach(b=>b.onclick=()=>answerVF(d,b.dataset.v==='1'));
+  if(d.t==='fill')setupFill(d);
+}
+function setupFill(d){
+  const blanks=[...app.querySelectorAll('.blank')],chips=[...app.querySelectorAll('.chip')];
+  const refresh=()=>{
+    const cur=d._f.indexOf(null);
+    blanks.forEach((b,i)=>{const w=d._f[i];b.textContent=w==null?'____':d._bank[w];b.classList.toggle('empty',w==null);b.classList.toggle('cur',i===cur)});
+    chips.forEach((c,i)=>c.classList.toggle('used',d._f.includes(i)));
+    $('#chk').disabled=d._f.includes(null);
+  };
+  chips.forEach((c,i)=>c.onclick=()=>{if(done)return;if(d._f.includes(i)){d._f[d._f.indexOf(i)]=null}else{const k=d._f.indexOf(null);if(k<0)return;d._f[k]=i}refresh()});
+  blanks.forEach((b,i)=>b.onclick=()=>{if(done)return;d._f[i]=null;refresh()});
+  $('#chk').onclick=()=>answerFill(d,blanks,chips);
+  refresh();
+}
+function answerMC(d,i){
+  if(done)return;done=true;
+  const pick_=d._o[i],ok=pick_===d.o[0];
+  app.querySelectorAll('.ans button').forEach((b,j)=>{b.disabled=true;if(d._o[j]===d.o[0])b.classList.add('ok');else if(j===i)b.classList.add('ko')});
+  let extra='';
+  if(!ok){extra=`<p>Hai scelto: <b>${esc(pick_)}</b>${d.w&&d.w[pick_]?' → '+esc(d.w[pick_]):''}</p><p>✅ Risposta giusta: <b>${esc(d.o[0])}</b></p>`}
+  feedback(d,ok,extra,pick_);
+}
+function answerVF(d,v){
+  if(done)return;done=true;
+  const ok=v===d.a;
+  app.querySelectorAll('.ans button').forEach(b=>{b.disabled=true;const bv=b.dataset.v==='1';if(bv===d.a)b.classList.add('ok');else if(bv===v)b.classList.add('ko')});
+  feedback(d,ok,ok?'':`<p>La frase è <b>${d.a?'VERA':'FALSA'}</b>.</p>`,v?'Vero':'Falso');
+}
+function answerFill(d,blanks,chips){
+  if(done)return;done=true;
+  let good=0;
+  blanks.forEach((b,i)=>{const w=d._bank[d._f[i]];const ok=w===d.a[i];if(ok)good++;b.classList.remove('cur');b.classList.add(ok?'ok':'ko');if(!ok)b.innerHTML=`<s>${esc(w)}</s><span class="fix">${esc(d.a[i])}</span>`});
+  chips.forEach(c=>c.disabled=true);$('#chk').remove();
+  const ok=good===d.a.length;
+  const full=d.q.split('___').map((p,i)=>esc(p)+(i<d.a.length?`<b>${esc(d.a[i])}</b>`:'')).join('');
+  feedback(d,ok,`${ok?'':`<p>Hai indovinato ${good} parola/e su ${d.a.length}. La frase giusta è:</p>`}<p>“${full}”</p>`,d._f.map(i=>d._bank[i]).join(', '));
+}
+function feedback(d,ok,extra,given){
+  if(ok){S.score++;S.streak++;S.best=Math.max(S.best,S.streak)}else S.streak=0;
+  S.log.push({d,ok,given});
+  const last=S.i===S.list.length-1;
+  $('#fb').innerHTML=`<div class="fb ${ok?'ok':'ko'}"><h3>${ok?pick(PRAISE):pick(OOPS)}</h3>${extra}<p>💡 <b>Perché:</b> ${esc(d.e)}</p>
+  ${mapHTML(d)}</div>
+  <div class="next"><button class="btn" id="nx">${last?'Vedi il risultato 🏁':'Avanti ➜'}</button></div>`;
+  $('#nx').onclick=next;$('#nx').focus({preventScroll:true});
+  $('#fb').scrollIntoView({behavior:'smooth',block:'nearest'});
+  updTop();
+}
+function updTop(){const n=S.list.length;const t=app.querySelector('.top');if(!t)return;t.querySelector('.bar i').style.width=Math.round((S.i+1)/n*100)+'%';t.querySelector('.streak').textContent=S.streak>=2?'🔥'+S.streak:'';t.lastElementChild.textContent='⭐ '+S.score}
+function next(){
+  try{speechSynthesis.cancel()}catch(e){}
+  S.i++;
+  if(S.i>=S.list.length)return results();
+  if(S.pause&&S.i%10===0)return pause();
+  ask();window.scrollTo({top:0});
+}
+function pause(){
+  const n=S.i,pc=Math.round(S.score/n*100);
+  const tips=['Alzati e fai 10 saltelli 🦘','Bevi un bicchiere d\'acqua 💧','Stiracchiati verso il soffitto 🙆','Guarda fuori dalla finestra per 30 secondi 🪟','Fai 5 respiri lenti 🌬️'];
+  app.innerHTML=`<div class="pause"><div class="big">☕</div><h2 style="margin:0">Pausa! Hai fatto ${n} domande</h2>
+  <p>Finora: <b>${S.score}</b> giuste su ${n} (${pc}%). ${pc>=80?'Stai andando alla grande!':pc>=60?'Bene, continua così!':'Tranquillo: ogni errore è una cosa in più che ora sai.'}</p>
+  <p style="font-size:20px">${pick(tips)}</p>
+  <button class="btn" id="go">Riprendo ➜</button></div>`;
+  $('#go').onclick=()=>{ask();window.scrollTo({top:0})};
+}
+function results(){
+  const n=S.list.length,pc=Math.round(S.score/n*100);
+  const em=pc>=90?'🏆':pc>=75?'🌟':pc>=60?'👍':'💪';
+  const msg=pc>=90?'Sei prontissimo per la verifica!':pc>=75?'Ottimo lavoro! Ripassa solo gli errori qui sotto.':pc>=60?'Buona base! Rifai le domande sbagliate.':'Ripassa le mappe degli argomenti in rosso e riprova: andrà meglio!';
+  const per=Object.keys(SEZ).map(k=>{const l=S.log.filter(x=>x.d.s===k);if(!l.length)return'';const g=l.filter(x=>x.ok).length,p=Math.round(g/l.length*100);
+    return `<div class="row"><span style="width:190px">${SEZ[k].i} ${SEZ[k].n}</span><div class="bar"><i style="width:${p}%;background:${p>=75?'var(--ok)':p>=60?'#e0a800':'var(--ko)'}"></i></div><span style="width:60px;text-align:right">${g}/${l.length}</span></div>`}).join('');
+  const errs=S.log.filter(x=>!x.ok);
+  app.innerHTML=`<div class="center"><div class="big">${em}</div><h1>${S.score} su ${n} (${pc}%)</h1><p>${msg}</p><p class="muted">Serie più lunga di risposte giuste: 🔥 ${S.best}</p></div>
+  <div class="res">${per}</div>
+  <div class="next" style="justify-content:center;flex-wrap:wrap"><button class="btn" id="rv">🗺️ Ora ripassa tutta la mappa ➜</button>${errs.length?`<button class="btn ghost" id="re">🔁 Rifai solo le ${errs.length} sbagliate</button>`:''}<button class="btn ghost" id="hm">🏠 Inizio</button></div>
+  ${errs.length?`<h2 style="margin-top:26px">📝 Da ripassare</h2>`+errs.map(x=>`<div class="err"><div><span class="tag" style="background:${SEZ[x.d.s].c}">${SEZ[x.d.s].i}</span><span class="qq">${esc(x.d.q)}</span></div>
+    <div>Hai risposto: <s>${esc(x.given)}</s> · Giusto: <span class="g">${esc(x.d.t==='mc'?x.d.o[0]:x.d.t==='vf'?(x.d.a?'Vero':'Falso'):x.d.a.join(', '))}</span></div>
+    </div>`).join(''):''}`;
+  $('#rv').onclick=review;if(errs.length)$('#re').onclick=()=>start(errs.map(x=>x.d));
+  $('#hm').onclick=home;window.scrollTo({top:0});
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){const nx=$('#nx');if(nx){e.preventDefault();nx.click()}return}
+  if(done)return;const n=parseInt(e.key);if(!n)return;
+  const bs=app.querySelectorAll('.ans button');if(bs[n-1])bs[n-1].click();
+});
+home();
+</script>
+</body>
+</html>
